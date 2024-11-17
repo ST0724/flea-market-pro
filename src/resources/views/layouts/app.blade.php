@@ -15,7 +15,7 @@
   <header class="header">
     <div class="header__inner">
       <a class="header__logo" href="/">
-        ここにヘッダーロゴのタイトルかいてね！！！
+        <img class="header__logo--image" src="{{ asset('storage/logo.svg') }}" alt="画像">
       </a>
 
       @if(Auth::check())
