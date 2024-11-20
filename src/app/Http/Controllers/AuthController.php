@@ -6,7 +6,13 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
 public function index(){
   return view('index');
 }
+
+public function profileEdit(){
+  return view('profile_edit');
+}
+
 }

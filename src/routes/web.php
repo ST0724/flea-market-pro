@@ -18,3 +18,7 @@ use App\Http\Controllers\ItemController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [AuthController::class, 'index']);
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mypage/profile', [AuthController::class, 'profileEdit']);
+});
