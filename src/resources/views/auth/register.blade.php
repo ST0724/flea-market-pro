@@ -46,7 +46,7 @@
                     <input type="password" name="password">
                 </div>
                 <div class="form__error">
-                    @error('name')
+                    @error('password')
                     {{ $message }}
                     @enderror
                 </div>
