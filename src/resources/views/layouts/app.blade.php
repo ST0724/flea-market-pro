@@ -11,19 +11,24 @@
   @yield('css')
 </head>
 
+
 <body>
   <header class="header">
     <div class="header__inner">
+
       <a class="header__logo" href="/">
         <img class="header__logo--image" src="{{ asset('storage/logo.svg') }}" alt="画像">
       </a>
 
       @if(Auth::check())
-        <form class="form" action="/logout" method="post">
+        <form class="logout_form" action="/logout" method="post">
         @csrf
-          <button>ログアウト</button>
+          <button class="logout_button">ログアウト</button>
         </form>
+        <button class="mypage_button">マイページ</button>
+        <button class="sell_button">出品</button>
       @endif
+
     </div>
   </header>
 
