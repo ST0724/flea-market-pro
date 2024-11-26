@@ -15,7 +15,7 @@
                     <span class="form__label">ユーザー名/メールアドレス</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="email" name="email" value="{{ old('email') }}">
+                    <input type="text" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="form__error">
                     @error('email')
