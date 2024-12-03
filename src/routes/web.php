@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,10 @@ use App\Http\Controllers\ItemController;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+    Route::get('/', [ItemController::class, 'index']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage/profile', [AuthController::class, 'profileEdit']);
+    Route::get('/mypage/profile', [UserController::class, 'profileEdit']);
 });
+Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);

@@ -5,10 +5,28 @@
 }
 
 .form__icon--image{
-    width: 200px;
-    height: 200px;
-    background: #ddd;
+    width: 150px;
+    height: 150px;
+    background: #d9d9d9;
     border-radius: 50%;
+}
+
+.form__icon--label {
+    display: inline-block;
+    margin: 0 20px;
+    padding: 5px 10px;
+    color: red;
+    cursor: pointer;
+    border-radius: 5px;
+    border: solid 3px red;
+}
+
+.form__icon--label:hover {
+    background-color: #45a049;
+}
+
+.form__icon--input{
+    display: none;
 }
 
 .content__title {
