@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="content">
+    <div class="content">
         <h2 class="content__title">プロフィール設定</h2>
 
         <form class="form" action="/mypage/profile" method="post">
@@ -13,10 +13,9 @@
             @csrf
             <div class="form__group">
                 <div class="form__icon">
-                    <img src="{{ asset('storage/img/Armani+Mens+Clock.jpg') }}" alt="画像" class="form__icon--image" accept=".png, .jpeg, .jpg">
+                    <img src="{{ asset('storage/img/'. $user['image']) }}" alt="画像" class="form__icon--image" accept=".png, .jpeg, .jpg">
                     <label class="form__icon--label" for="form__icon">画像を選択する</label>
                         <input type="file" class="form__icon--input" id="form__icon" name="image">
-                    <span class="form__icon--span">選択されていません</span>
                     <div class="form__error">
                         @error('image')
                         {{ $message }}

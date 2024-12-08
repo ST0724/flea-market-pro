@@ -16,8 +16,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::get('/', [ItemController::class, 'index']);
+
+Route::get('/item/{item_id}', [ItemController::class, 'item']);
+
 Route::middleware('auth')->group(function () {
-    Route::get('/', [ItemController::class, 'index']);
+    Route::get('/sell', [ItemController::class, 'sell']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mypage', [UserController::class, 'profile']);
 });
 
 Route::middleware('auth')->group(function () {
