@@ -8,7 +8,7 @@
     <div class="content">
         <div class="user">
             <div class="user__image">
-                <img src="{{ asset('storage/img/'. $user['image']) }}" alt="画像" class="user__image--icon" accept=".png, .jpeg, .jpg">
+                <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="user__image--icon" accept=".png, .jpeg, .jpg">
                 <h2 class="user__image--name">{{ $user['name'] }}</h2>
             </div>
             <div class="user__profile-edit">
@@ -19,8 +19,8 @@
 
 
             <div class="category">
-                <h3 class="category__sell">出品した商品</h3>
-                <h3 class="category__buy">購入した商品</h3>
+                <a href="/mypage?tab=sell" class="category__sell">出品した商品</a>
+                <a href="/mypage?tab=buy" class="category__buy">購入した商品</a>
             </div>
 
             <div class="item">

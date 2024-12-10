@@ -27,7 +27,14 @@ class UserController extends Controller
     // プロフィール画面
     public function profile(Request $request){
         $user = Auth::user();
-        $items = Item::all();
-        return view('profile', compact('user', 'items'));
+        $tab = $request->tab;
+        if ($tab === 'buy') {
+            $items = Item::where('purchaser_id', Auth::id())->get();
+        }else if($tab === 'sell'){
+            $items = Item::where('seller_id', Auth::id())->get();
+        }else{
+            $items = Item::all();
+        }
+        return view('profile',compact('items', 'user'));
     }
 }

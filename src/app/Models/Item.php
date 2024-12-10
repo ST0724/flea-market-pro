@@ -15,15 +15,25 @@ class Item extends Model
         'image',
         'description',
         'condition_id',
-        'category_id'
+        // 'category_id',
+        'seller_id',
+        'purchaser_id'
     ];
 
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
+    // public function category(){
+    //     return $this->belongsTo(Category::class);
+    // }
 
     public function condition(){
         return $this->belongsTo(Condition::class);
+    }
+
+    public function seller(){
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function purchaser(){
+        return $this->belongsTo(User::class, 'purchaser_id');
     }
     
 }

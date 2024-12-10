@@ -13,7 +13,7 @@
             @csrf
             <div class="form__group">
                 <div class="form__icon">
-                    <img src="{{ asset('storage/img/'. $user['image']) }}" alt="画像" class="form__icon--image" accept=".png, .jpeg, .jpg">
+                    <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="form__icon--image" accept=".png, .jpeg, .jpg">
                     <label class="form__icon--label" for="form__icon">画像を選択する</label>
                         <input type="file" class="form__icon--input" id="form__icon" name="image">
                     <div class="form__error">

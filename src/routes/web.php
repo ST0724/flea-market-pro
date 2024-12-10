@@ -16,18 +16,23 @@ use App\Http\Controllers\UserController;
 |
 */
 
+// 商品一覧画面
 Route::get('/', [ItemController::class, 'index']);
 
+// 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'item']);
 
+// 出品画面
 Route::middleware('auth')->group(function () {
     Route::get('/sell', [ItemController::class, 'sell']);
 });
 
+// プロフィール画面
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [UserController::class, 'profile']);
 });
 
+// プロフィール編集画面
 Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'profileEdit']);
 });
