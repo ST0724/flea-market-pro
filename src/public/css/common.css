@@ -3,6 +3,40 @@
 }
 
 .header__inner {
-    padding:15px;
-    max-width: 1230px;
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+}
+
+.header__logo{
+    padding: 15px;
+}
+
+.header__login {
+    display: flex;
+    margin-right: 30px;
+}
+
+.logout_form{
+    margin: auto;
+}
+
+.logout_button,
+.login_button,
+.mypage_button {
+    margin-right: 20px;
+    color: #fff;
+    border: none;
+    background-color: #000;
+    font-size: 18px;
+}
+
+.sell_button{
+    margin: 10px 0;
+    width: 80px;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
 }

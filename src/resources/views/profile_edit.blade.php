@@ -5,16 +5,17 @@
 @endsection
 
 @section('content')
-<div class="content">
+    <div class="content">
         <h2 class="content__title">プロフィール設定</h2>
 
         <form class="form" action="/mypage/profile" method="post">
-        @csrf
+            @method('PATCH')
+            @csrf
             <div class="form__group">
                 <div class="form__icon">
-                    <img src="" alt="画像" class="form__icon--image">
-
-                    <input type="file" class="form__icon--input" name="image">
+                    <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="form__icon--image" accept=".png, .jpeg, .jpg">
+                    <label class="form__icon--label" for="form__icon">画像を選択する</label>
+                        <input type="file" class="form__icon--input" id="form__icon" name="image">
                     <div class="form__error">
                         @error('image')
                         {{ $message }}
@@ -28,7 +29,7 @@
                     <span class="form__label">ユーザー名</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="text" name="name" value="{{ old('name') }}">
+                    <input type="text" name="name" value="{{ $user['name'] }}">
                 </div>
                 <div class="form__error">
                     @error('name')
@@ -42,10 +43,10 @@
                     <span class="form__label">郵便番号</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="text" name="email" value="{{ old('email') }}">
+                    <input type="text" name="post_code" value="{{ $user['post_code'] }}">
                 </div>
                 <div class="form__error">
-                    @error('email')
+                    @error('post_code')
                     {{ $message }}
                     @enderror
                 </div>
@@ -56,10 +57,10 @@
                     <span class="form__label">住所</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="password" name="password">
+                    <input type="text" name="address" value="{{ $user['address'] }}"">
                 </div>
                 <div class="form__error">
-                    @error('password')
+                    @error('address')
                     {{ $message }}
                     @enderror
                 </div>
@@ -70,10 +71,10 @@
                     <span class="form__label">建物名</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="password" name="password_confirmation">
+                    <input type="text" name="building" value="{{ $user['building'] }}"">
                 </div>
                 <div class="form__error">
-                    @error('password_confirmation')
+                    @error('building')
                     {{ $message }}
                     @enderror
                 </div>

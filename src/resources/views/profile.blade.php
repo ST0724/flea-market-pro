@@ -1,14 +1,26 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/index.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
 @endsection
 
 @section('content')
     <div class="content">
-        <div class="category">
-                <h3 class="category__recommend">おすすめ</h3>
-                <h3 class="category__mylist">マイリスト</h3>
+        <div class="user">
+            <div class="user__image">
+                <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="user__image--icon" accept=".png, .jpeg, .jpg">
+                <h2 class="user__image--name">{{ $user['name'] }}</h2>
+            </div>
+            <div class="user__profile-edit">
+                <button class="user__profile-edit--button" onclick="location.href='/mypage/profile'">プロフィールを編集</button>
+            </div>
+        </div>
+
+
+
+            <div class="category">
+                <a href="/mypage?tab=sell" class="category__sell">出品した商品</a>
+                <a href="/mypage?tab=buy" class="category__buy">購入した商品</a>
             </div>
 
             <div class="item">
@@ -28,4 +40,5 @@
         
         
     </div>
+
 @endsection

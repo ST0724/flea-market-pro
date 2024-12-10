@@ -1,0 +1,87 @@
+.content{
+    margin: 0 auto;
+}
+
+.user{
+    margin: 50px auto;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user__image{
+    display: flex;
+}
+
+.user__image--icon{
+    margin: auto 20px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.user__image--name{
+    margin: auto 50px;
+}
+
+.user__profile-edit{
+    margin: auto 20px;
+}
+
+.user__profile-edit--button{
+    
+    padding: 5px 20px;
+    color: red;
+    background-color: #fff;
+    border-radius: 5px;
+    border: solid 2px red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+
+.category{
+    width: 100%;
+    margin-top: 100px;
+    padding-left: 90px;
+    display: flex;
+    border-bottom: solid 3px #5F5F5F;
+}
+
+.category__sell,
+.category__buy{
+    margin: 0 30px;
+}
+
+.item {
+    width: 90%;
+    margin: 50px 0 0 5%;
+}
+
+.item__image {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item__card {
+    width: 21%;
+}
+
+.item__card:not(:nth-child(4n+4)) {
+    margin-right: 5%;
+}
+
+.item__card:nth-child(n+5) {
+    margin-top: 30px;
+}
+
+.item__card a,
+.item__card a:visited {
+    text-decoration: none;
+    color: #000;
+}
+
+.item__card--image {
+    width: 100%;
+}

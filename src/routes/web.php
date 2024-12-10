@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,24 @@ use App\Http\Controllers\ItemController;
 |
 */
 
+// 商品一覧画面
+Route::get('/', [ItemController::class, 'index']);
+
+// 商品詳細画面
+Route::get('/item/{item_id}', [ItemController::class, 'item']);
+
+// 出品画面
 Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+    Route::get('/sell', [ItemController::class, 'sell']);
 });
 
+// プロフィール画面
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage/profile', [AuthController::class, 'profileEdit']);
+    Route::get('/mypage', [UserController::class, 'profile']);
 });
+
+// プロフィール編集画面
+Route::middleware('auth')->group(function () {
+    Route::get('/mypage/profile', [UserController::class, 'profileEdit']);
+});
+Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);

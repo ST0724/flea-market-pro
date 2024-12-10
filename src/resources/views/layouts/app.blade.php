@@ -21,12 +21,20 @@
       </a>
 
       @if(Auth::check())
-        <form class="logout_form" action="/logout" method="post">
-        @csrf
-          <button class="logout_button">ログアウト</button>
-        </form>
-        <button class="mypage_button">マイページ</button>
-        <button class="sell_button">出品</button>
+        <div class="header__login">
+          <form class="logout_form" action="/logout" method="post">
+            @csrf
+            <button class="logout_button">ログアウト</button>
+          </form>
+          <button class="mypage_button" onclick="location.href='/mypage'">マイページ</button>
+          <button class="sell_button" onclick="location.href='/sell'">出品</button>
+        </div>
+      @else
+        <div class="header__login">
+          <button class="login_button" onclick="location.href='/login'">ログイン</button>
+          <button class="mypage_button" onclick="location.href='/mypage'">マイページ</button>
+          <button class="sell_button" onclick="location.href='/sell'">出品</button>
+        </div>
       @endif
 
     </div>
