@@ -7,8 +7,8 @@
 @section('content')
     <div class="content">
         <div class="category">
-                <h3 class="category__recommend">おすすめ</h3>
-                <h3 class="category__mylist">マイリスト</h3>
+                <a href="{{ url('/') }}" class="category__title {{ request()->fullUrlIs(url('/')) ? 'active' : '' }}">おすすめ</a>
+                <a href="{{ url('/?tab=mylist') }}" class="category__title {{ request()->fullUrlIs(url('/?tab=mylist')) ? 'active' : '' }}">マイリスト</a>
             </div>
 
             <div class="item">
@@ -16,7 +16,7 @@
                     @foreach($items as $item)
                         <div class="item__card">
                             <a href="/item/{{ $item['id'] }}" class="item__card--link">
-                                <img src="{{ asset($item['image']) }}" alt="画像" class="item__card--image">
+                                <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
                                 <div class="item__card--info">
                                     <span>{{ $item['name'] }}</span>
                                 </div>

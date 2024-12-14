@@ -26,6 +26,7 @@ Route::get('/item/{item_id}', [ItemController::class, 'item']);
 Route::middleware('auth')->group(function () {
     Route::get('/sell', [ItemController::class, 'sell']);
 });
+Route::post('/sell', [ItemController::class, 'sellStore']);
 
 // プロフィール画面
 Route::middleware('auth')->group(function () {

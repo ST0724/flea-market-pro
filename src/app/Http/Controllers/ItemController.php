@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Condition;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -22,6 +23,14 @@ class ItemController extends Controller
 
     // 出品画面
     public function sell(){
-        return view('sell');
+        $conditions = Condition::all();
+        return view('sell', compact('conditions'));
+    }
+
+    public function sellStore(Request $request){
+        $item = $request->only(['image', 'name', 'condition_id', 'description', 'price']);
+        $item['seller_id'] = Auth::id();
+        Item::create($item);
+        return redirect('/mypage');
     }
 }

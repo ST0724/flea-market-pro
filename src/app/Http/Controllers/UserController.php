@@ -33,7 +33,7 @@ class UserController extends Controller
         }else if($tab === 'sell'){
             $items = Item::where('seller_id', Auth::id())->get();
         }else{
-            $items = Item::all();
+            $items = collect();
         }
         return view('profile',compact('items', 'user'));
     }

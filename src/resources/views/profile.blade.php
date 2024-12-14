@@ -19,8 +19,8 @@
 
 
             <div class="category">
-                <a href="/mypage?tab=sell" class="category__sell">出品した商品</a>
-                <a href="/mypage?tab=buy" class="category__buy">購入した商品</a>
+                <a href="{{ url('/mypage?tab=sell') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=sell')) ? 'active' : '' }}">出品した商品</a>
+                <a href="{{ url('/mypage?tab=buy') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=buy')) ? 'active' : '' }}">購入した商品</a>
             </div>
 
             <div class="item">
@@ -28,7 +28,7 @@
                     @foreach($items as $item)
                         <div class="item__card">
                             <a href="/item/{{ $item['id'] }}" class="item__card--link">
-                                <img src="{{ asset($item['image']) }}" alt="画像" class="item__card--image">
+                                <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
                                 <div class="item__card--info">
                                     <span>{{ $item['name'] }}</span>
                                 </div>
