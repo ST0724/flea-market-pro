@@ -20,6 +20,11 @@
         <img class="header__logo--image" src="{{ asset('storage/logo.svg') }}" alt="画像">
       </a>
 
+      <form class="search-form" action="/" method="POST">
+        @csrf
+        <input type="text" class="search-form__input" placeholder="何をお探しですか？" name="keyword">
+      </form>
+
       @if(Auth::check())
         <div class="header__login">
           <form class="logout_form" action="/logout" method="post">

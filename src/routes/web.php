@@ -18,9 +18,19 @@ use App\Http\Controllers\UserController;
 
 // 商品一覧画面
 Route::get('/', [ItemController::class, 'index']);
+Route::post('/', [ItemController::class, 'indexSearch']);
 
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'item']);
+
+Route::middleware('auth')->group(function () {
+    Route::post('/item/{item_id}', [ItemController::class, 'comment']);
+});
+
+// 購入画面
+Route::middleware('auth')->group(function () {
+    Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);
+});
 
 // 出品画面
 Route::middleware('auth')->group(function () {

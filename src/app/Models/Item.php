@@ -35,5 +35,11 @@ class Item extends Model
     public function purchaser(){
         return $this->belongsTo(User::class, 'purchaser_id');
     }
+
+    public function scopeKeywordSearch($query, $keyword){
+        if (!empty($keyword)) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+    }
     
 }
