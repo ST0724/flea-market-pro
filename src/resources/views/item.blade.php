@@ -16,12 +16,20 @@
         <h3 class="name">{{ $item['name'] }}</h3>
         <p class="price"><span>￥</span>{{ $item['price'] }}<span>(税込み)</span></p>
         <div class="icon">
-            <div class="icon__star">
-                <img src="{{ asset('storage/星アイコン8.svg') }}" alt="画像">
-            </div>
+            <form class="like-form" action="/like/{{ $item['id'] }}" method="POST">
+                @csrf
+                <div class="icon__like">
+                    @if($isLiked)
+                        <input class="icon__like--image" type="image" src="{{ asset('storage/星アイコン6.png') }}" alt="いいね解除" title="いいね解除">
+                    @else
+                        <input class="icon__like--image" type="image" src="{{ asset('storage/星アイコン8.png') }}" alt="いいね" title="いいね">
+                    @endif
+                    <p class="icon__like--count">{{ $count_likes }}</p>
+                </div>
+            </form>
             <div class="icon__comment">
                 <img src="{{ asset('storage/ふきだしのアイコン.svg') }}" alt="画像">
-                <p class="icon__comment--count">{{ $count }}</p>
+                <p class="icon__comment--count">{{ $count_comments }}</p>
             </div>
         </div>
         <div class="purchase__button">
@@ -45,7 +53,7 @@
         </div>
 
         <div class="comment">
-            <h3 class="title">コメント({{ $count }})</h3>
+            <h3 class="title">コメント({{ $count_comments }})</h3>
             @foreach($comments as $comment)
                 <div class="comment__user">
                     <img class="comment__user--image" src="{{ asset('storage/'. $comment['user']['image']) }}" alt="画像">
@@ -61,6 +69,11 @@
             <h4 class="sub-title__comment">商品へのコメント</h4>
             <div class="comment-form__text">
                 <textarea name="text"></textarea>
+            </div>
+            <div class="form__error">
+                @error('text')
+                {{ $message }}
+                @enderror
             </div>
             <div class="comment__button">
                 <button class="comment__button--submit">コメントを送信する</button>

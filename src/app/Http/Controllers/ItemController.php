@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Condition;
 use App\Models\Comment;
+use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CommentRequest;
 
 class ItemController extends Controller
 {
@@ -28,17 +30,34 @@ class ItemController extends Controller
 
     // 商品詳細画面
     public function item($item_id){
-        $item = Item::with('condition')->find($item_id);
+        $item = Item::with('condition','likes')->find($item_id);
         $comments = Comment::with('user')->where('item_id', $item_id)->get();
-        $count = Comment::where('item_id', $item_id)->count();
-        return view('item', compact('item', 'count', 'comments'));
+        $count_comments = Comment::where('item_id', $item_id)->count();
+        $count_likes = Like::where('item_id', $item_id)->count();
+        $isLiked = $item->isLikedByUser(Auth::user());
+        return view('item', compact('item', 'count_comments', 'count_likes', 'comments', 'isLiked'));
     }
 
-    public function comment(Request $request, $item_id){
+    public function comment(CommentRequest $request, $item_id){
         $comment = $request->only(['text']);
         $comment['user_id'] = Auth::id();
         $comment['item_id'] = $item_id;
         Comment::create($comment);
+        return redirect("/item/{$item_id}");
+    }
+
+    public function like($item_id){
+        $user = Auth::id();
+        $like = Like::where('user_id', $user)->where('item_id', $item_id)->first();
+
+        if ($like) {
+            $like->delete();
+        } else {
+            $like['user_id'] = Auth::id();
+            $like['item_id'] = $item_id;
+            Like::create($like);
+        }
+
         return redirect("/item/{$item_id}");
     }
 

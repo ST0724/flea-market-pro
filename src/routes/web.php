@@ -27,6 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/item/{item_id}', [ItemController::class, 'comment']);
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/like/{item_id}', [ItemController::class, 'like']);
+});
+
 // 購入画面
 Route::middleware('auth')->group(function () {
     Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);

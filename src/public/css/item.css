@@ -24,11 +24,13 @@
 }
 
 .name{
-    font-size: 36px;
+    font-size: 40px;
+    margin-bottom: 20px;
 }
 
 .price{
-    font-size: 32px;
+    font-size: 36px;
+    margin: 10px 0;
 }
 
 .price span{
@@ -84,14 +86,27 @@
     display: flex;
 }
 
-.icon__star,
-.icon__comment{
+.icon__like{
+    width: 40px;
     margin-left: 50px;
+}
+
+.icon__comment {
+    margin-left: 60px;
+}
+
+.icon__like--image {
+    width: 100%
 }
 
 .icon__comment--count{
     text-align: center;
-    margin-top: 5px;
+    margin-top: 10px;
+}
+
+.icon__like--count{
+    text-align: center;
+    margin-top: 3px;
 }
 
 .comment{
@@ -128,4 +143,10 @@ textarea {
     width: 100%;
     height: 200px;
     border: solid 1px;
+}
+
+.form__error {
+    height: 20px;
+    color: #ff0000;
+    text-align: left;
 }
