@@ -12,6 +12,12 @@ class UserController extends Controller
     // プロフィール編集画面
     public function profileEdit(Request $request){
         $user = Auth::user();
+
+        if(is_null($user['image'])){
+            $image = 'profile_icon.jpg';
+            Auth::user()->update(['image' => $image]);
+        }
+
         return view('profile_edit', compact('user'));
     }
 

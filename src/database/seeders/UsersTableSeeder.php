@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'テスト1',
             'email' => 'test1@example.com',
             'password' => Hash::make('password'),
+            'image' => 'profile_icon.jpg',
         ];
         DB::table('users')->insert($param);
 
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'テスト2',
             'email' => 'test2@example.com',
             'password' => Hash::make('password'),
+            'image' => 'profile_icon.jpg',
         ];
         DB::table('users')->insert($param);
 
@@ -33,6 +35,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'テスト3',
             'email' => 'test3@example.com',
             'password' => Hash::make('password'),
+            'image' => 'profile_icon.jpg',
         ];
         DB::table('users')->insert($param);
     }
