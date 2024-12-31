@@ -64,7 +64,9 @@ class ItemController extends Controller
     // 購入画面
     public function purchase($item_id){
         $item = Item::find($item_id);
-        return view('purchase', compact('item'));
+        $user = Auth::user();
+        
+        return view('purchase', compact('item', 'user'));
     }
 
     // 出品画面

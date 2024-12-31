@@ -14,7 +14,7 @@
 
     <div class="right-contents">
         <h3 class="name">{{ $item['name'] }}</h3>
-        <p class="price"><span>￥</span>{{ $item['price'] }}<span>(税込み)</span></p>
+        <p class="price"><span>￥</span>{{ number_format($item['price']) }}<span>(税込み)</span></p>
         <div class="icon">
             <form class="like-form" action="/like/{{ $item['id'] }}" method="POST">
                 @csrf
