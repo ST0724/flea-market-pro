@@ -1,35 +1,35 @@
-.content{
+.content {
     margin: 0 auto;
 }
 
-.user{
+.user {
     margin: 50px auto;
     width: 70%;
     display: flex;
     justify-content: space-between;
 }
 
-.user__image{
+.user__image {
     display: flex;
 }
 
-.user__image--icon{
+.user__image--icon {
     margin: auto 20px;
     width: 150px;
     height: 150px;
     border-radius: 50%;
 }
 
-.user__image--name{
+.user__image--name {
     margin: auto 50px;
 }
 
-.user__profile-edit{
+.user__profile-edit {
     margin: auto 20px;
 }
 
-.user__profile-edit--button{
-    
+.user__profile-edit--button {
+
     padding: 5px 20px;
     color: red;
     background-color: #fff;
@@ -39,9 +39,7 @@
     font-weight: bold;
 }
 
-
-
-.category{
+.category {
     width: 100%;
     margin-top: 100px;
     padding-left: 90px;
@@ -49,9 +47,15 @@
     border-bottom: solid 3px #5F5F5F;
 }
 
-.category__sell,
-.category__buy{
+.category__title {
     margin: 0 30px;
+    text-decoration: none;
+    font-size: 24px;
+    color: #000;
+}
+
+.active{
+    color: red;
 }
 
 .item {

@@ -4,7 +4,7 @@
     max-width: 1230px;
 }
 
-.form__icon--image{
+.form__icon--image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -21,11 +21,7 @@
     font-size: 16px;
 }
 
-.form__icon--label:hover {
-    background-color: #45a049;
-}
-
-.form__icon--input{
+.form__icon--input {
     display: none;
 }
 

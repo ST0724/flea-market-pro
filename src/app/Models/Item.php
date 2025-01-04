@@ -35,5 +35,19 @@ class Item extends Model
     public function purchaser(){
         return $this->belongsTo(User::class, 'purchaser_id');
     }
+
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function scopeKeywordSearch($query, $keyword){
+        if (!empty($keyword)) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+    }
+
+    public function isLikedByUser($user){
+        return $user !== null && $this->likes()->where('user_id', $user->id)->exists();
+    }
     
 }

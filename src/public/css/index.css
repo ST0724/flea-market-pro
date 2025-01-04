@@ -10,22 +10,28 @@
     border-bottom: solid 3px #5F5F5F;
 }
 
-.category__recommend,
-.category__mylist {
+.category__title {
     margin: 0 30px;
+    text-decoration: none;
+    font-size: 24px;
+    color: #000;
 }
 
-.item{
+.active {
+    color: red;
+}
+
+.item {
     width: 90%;
     margin: 50px 0 0 5%;
 }
 
-.item__image{
+.item__image {
     display: flex;
     flex-wrap: wrap;
 }
 
-.item__card{
+.item__card {
     width: 21%;
 }
 

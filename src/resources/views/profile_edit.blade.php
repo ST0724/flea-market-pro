@@ -57,7 +57,7 @@
                     <span class="form__label">住所</span>
                 </div>
                 <div class="form__group--input">
-                    <input type="text" name="address" value="{{ $user['address'] }}"">
+                    <input type="text" name="address" value="{{ $user['address'] }}">
                 </div>
                 <div class="form__error">
                     @error('address')

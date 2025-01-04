@@ -18,14 +18,42 @@ use App\Http\Controllers\UserController;
 
 // 商品一覧画面
 Route::get('/', [ItemController::class, 'index']);
+Route::post('/', [ItemController::class, 'indexSearch']);
 
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'item']);
+
+Route::middleware('auth')->group(function () {
+    Route::post('/item/{item_id}', [ItemController::class, 'comment']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/like/{item_id}', [ItemController::class, 'like']);
+});
+
+// 購入画面
+Route::middleware('auth')->group(function () {
+    Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/purchase/{item_id}', [ItemController::class, 'purchaseStore']);
+});
+
+// 住所変更ページ
+Route::middleware('auth')->group(function () {
+    Route::get('/purchase/address/{item_id}', [ItemController::class, 'address']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/purchase/address/{item_id}', [ItemController::class, 'addressStore']);
+});
 
 // 出品画面
 Route::middleware('auth')->group(function () {
     Route::get('/sell', [ItemController::class, 'sell']);
 });
+Route::post('/sell', [ItemController::class, 'sellStore']);
 
 // プロフィール画面
 Route::middleware('auth')->group(function () {
