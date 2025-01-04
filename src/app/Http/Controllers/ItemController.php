@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Condition;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Destination;
@@ -32,11 +33,12 @@ class ItemController extends Controller
     // 商品詳細画面
     public function item($item_id){
         $item = Item::with('condition','likes')->find($item_id);
+        $categories = Item::findOrFail($item_id)->categories;
         $comments = Comment::with('user')->where('item_id', $item_id)->get();
         $count_comments = Comment::where('item_id', $item_id)->count();
         $count_likes = Like::where('item_id', $item_id)->count();
         $isLiked = $item->isLikedByUser(Auth::user());
-        return view('item', compact('item', 'count_comments', 'count_likes', 'comments', 'isLiked'));
+        return view('item', compact('item', 'categories', 'count_comments', 'count_likes', 'comments', 'isLiked'));
     }
 
     public function comment(CommentRequest $request, $item_id){
@@ -105,13 +107,21 @@ class ItemController extends Controller
     // 出品画面
     public function sell(){
         $conditions = Condition::all();
-        return view('sell', compact('conditions'));
+        $categories = Category::all();
+        return view('sell', compact('conditions', 'categories'));
     }
 
     public function sellStore(Request $request){
-        $item = $request->only(['image', 'name', 'condition_id', 'description', 'price']);
-        $item['seller_id'] = Auth::id();
-        Item::create($item);
+        $checkedCategories = $request->input('categories', []);
+        $itemData = $request->only(['image', 'name', 'condition_id', 'description', 'price']);
+        $itemData['seller_id'] = Auth::id();
+
+        $item = Item::create($itemData);
+
+        if (!empty($checkedCategories)) {
+            $item->categories()->attach($checkedCategories);
+        }
+
         return redirect('/mypage');
     }
 }

@@ -49,5 +49,9 @@ class Item extends Model
     public function isLikedByUser($user){
         return $user !== null && $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class, 'categories_items', 'item_id', 'category_id');
+    }
     
 }
