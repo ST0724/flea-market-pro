@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Condition;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Destination;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
 
@@ -65,8 +66,40 @@ class ItemController extends Controller
     public function purchase($item_id){
         $item = Item::find($item_id);
         $user = Auth::user();
-        
-        return view('purchase', compact('item', 'user'));
+        $destination = session('destination');
+        if (is_null($destination)) {
+            $user = Auth::user();
+            $destination['address'] = $user->address;
+            $destination['post_code'] = $user->post_code;
+            $destination['building'] = $user->building;
+            session(['destination' => $destination]);
+        }
+        return view('purchase', compact('item', 'user', 'destination'));
+    }
+
+    public function purchaseStore($item_id){
+        $destination = session('destination');
+        $destination['item_id'] = $item_id;
+        Destination::create($destination);
+        session()->forget('destination');
+
+        $item['purchaser_id'] = Auth::id();
+        Item::find($item_id)->update($item);
+
+        return redirect('/');
+    }
+
+    // 住所変更ページ
+    public function address($item_id){
+        $item = Item::find($item_id);
+        return view('address', compact('item'));
+    }
+
+    public function addressStore(Request $request, $item_id){
+        $destination = $request->only(['address', 'post_code', 'building']);
+        $destination['item_id'] = $item_id;
+        session(['destination' => $destination]);
+        return redirect("/purchase/{$item_id}");
     }
 
     // 出品画面

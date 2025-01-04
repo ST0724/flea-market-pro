@@ -36,6 +36,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/{item_id}', [ItemController::class, 'purchase']);
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/purchase/{item_id}', [ItemController::class, 'purchaseStore']);
+});
+
+// 住所変更ページ
+Route::middleware('auth')->group(function () {
+    Route::get('/purchase/address/{item_id}', [ItemController::class, 'address']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/purchase/address/{item_id}', [ItemController::class, 'addressStore']);
+});
+
 // 出品画面
 Route::middleware('auth')->group(function () {
     Route::get('/sell', [ItemController::class, 'sell']);
