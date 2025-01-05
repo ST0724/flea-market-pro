@@ -12,6 +12,8 @@ use App\Models\Like;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\AddressRequest;
 
 class ItemController extends Controller
 {
@@ -81,21 +83,20 @@ class ItemController extends Controller
         $item = Item::find($item_id);
         $user = Auth::user();
         $destination = session('destination');
+        session()->forget('destination');
         if (is_null($destination)) {
             $user = Auth::user();
             $destination['address'] = $user->address;
             $destination['post_code'] = $user->post_code;
             $destination['building'] = $user->building;
-            session(['destination' => $destination]);
         }
         return view('purchase', compact('item', 'user', 'destination'));
     }
 
-    public function purchaseStore($item_id){
-        $destination = session('destination');
+    public function purchaseStore(PurchaseRequest $request, $item_id){
+        $destination = $request->only(['address', 'post_code', 'building']);
         $destination['item_id'] = $item_id;
         Destination::create($destination);
-        session()->forget('destination');
 
         $item['purchaser_id'] = Auth::id();
         Item::find($item_id)->update($item);
@@ -109,7 +110,7 @@ class ItemController extends Controller
         return view('address', compact('item'));
     }
 
-    public function addressStore(Request $request, $item_id){
+    public function addressStore(AddressRequest $request, $item_id){
         $destination = $request->only(['address', 'post_code', 'building']);
         $destination['item_id'] = $item_id;
         session(['destination' => $destination]);
