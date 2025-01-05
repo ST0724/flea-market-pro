@@ -17,7 +17,8 @@ class ItemController extends Controller
 {
     // 商品一覧画面
     public function index(){
-        $items = Item::all();
+        $user_id = Auth::id();
+        $items = Item::where('seller_id', '!=', $user_id)->get();
         return view('index', compact('items'));
     }
 
@@ -26,7 +27,8 @@ class ItemController extends Controller
         if(is_null($request->keyword)){
             return redirect('/');
         }
-        $items = Item::KeywordSearch($request->keyword)->get();
+        $user_id = Auth::id();
+        $items = Item::KeywordSearch($request->keyword)->where('seller_id', '!=', $user_id)->get();
         return view('index', compact('items'));
     }
 

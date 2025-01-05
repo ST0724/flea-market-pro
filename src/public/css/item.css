@@ -26,6 +26,18 @@
 .name{
     font-size: 40px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sold {
+    margin-right: 20px;
+    text-align: center;
+    padding: 0px 10px;
+    color: red;
+    border-radius: 30px;
+    border: solid 2px red;
+    font-size: 16px;
 }
 
 .price{
