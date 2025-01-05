@@ -16,9 +16,19 @@ use App\Http\Requests\CommentRequest;
 class ItemController extends Controller
 {
     // 商品一覧画面
-    public function index(){
+    public function index(Request $request){
         $user_id = Auth::id();
-        $items = Item::where('seller_id', '!=', $user_id)->get();
+        $user = Auth::user();
+        $tab = $request->tab;
+
+        if ($tab === 'mylist') {
+            $items = Item::whereHas('likes', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })->get();
+        }else{
+            $items = Item::where('seller_id', '!=', $user_id)->get();
+        }
+    
         return view('index', compact('items'));
     }
 

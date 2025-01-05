@@ -7,8 +7,8 @@
 @section('content')
     <div class="content">
         <div class="category">
-                <a href="{{ url('/') }}" class="category__title {{ request()->fullUrlIs(url('/')) ? 'active' : '' }}">おすすめ</a>
-                <a href="{{ url('/?tab=mylist') }}" class="category__title {{ request()->fullUrlIs(url('/?tab=mylist')) ? 'active' : '' }}">マイリスト</a>
+                <a href="{{ url('/') }}" class="category__title {{ !request('tab') ? 'active' : '' }}">おすすめ</a>
+                <a href="{{ url('/?tab=mylist') }}" class="category__title {{ request('tab') == 'mylist' ? 'active' : '' }}">マイリスト</a>
             </div>
 
             <div class="item">
