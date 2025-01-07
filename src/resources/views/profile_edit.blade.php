@@ -8,7 +8,7 @@
     <div class="content">
         <h2 class="content__title">プロフィール設定</h2>
 
-        <form class="form" action="/mypage/profile" method="post">
+        <form class="form" action="/mypage/profile" method="post" enctype="multipart/form-data">
             @method('PATCH')
             @csrf
             <div class="form__group">

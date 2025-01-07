@@ -60,7 +60,7 @@
     text-align: left;
 }
 
-.form__category{
+.form__category {
     margin-top: 10px;
     margin-bottom: 50px;
 }
@@ -76,7 +76,7 @@
     font-size: 16px;
 }
 
-.form__category--input:checked +.form__category--label {
+.form__category--input:checked+.form__category--label {
     background-color: red;
     color: white;
 }

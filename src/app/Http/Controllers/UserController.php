@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Item;
+use App\Http\Requests\ProfileEditRequest;
 
 class UserController extends Controller
 {
@@ -21,11 +22,20 @@ class UserController extends Controller
         return view('profile_edit', compact('user'));
     }
 
-    public function profileEditUpdate(Request $request){
-        $user = $request->only(['name', 'post_code', 'address', 'building', 'image']);
-        if(is_null($user['image'])){
+    public function profileEditUpdate(ProfileEditRequest $request){
+        $user = $request->only(['name', 'post_code', 'address', 'building']);
+
+        if ($request->hasFile('image')) {
+            // 新しい画像がアップロードされた場合
+            $fileName = time() . '.' . $request->image->extension();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $user['image'] = $path;
+        } elseif ($request->has('image')) {
+            // ファイルがアップロードされていない場合
+            // 既存の画像を保持
             $user['image'] = Auth::user()->image;
         }
+
         Auth::user()->update($user);
         return redirect('/');
     }

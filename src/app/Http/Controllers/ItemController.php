@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\SellRequest;
 
 class ItemController extends Controller
 {
@@ -124,10 +125,14 @@ class ItemController extends Controller
         return view('sell', compact('conditions', 'categories'));
     }
 
-    public function sellStore(Request $request){
+    public function sellStore(SellRequest $request){
         $checkedCategories = $request->input('categories', []);
-        $itemData = $request->only(['image', 'name', 'condition_id', 'description', 'price']);
+        $itemData = $request->only(['name', 'condition_id', 'description', 'price']);
         $itemData['seller_id'] = Auth::id();
+        
+        $fileName = time() . '.' . $request->image->extension();
+        $path = $request->file('image')->storeAs('images', $fileName, 'public');
+        $itemData['image'] = $path;
 
         $item = Item::create($itemData);
 
