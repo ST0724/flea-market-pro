@@ -13,7 +13,12 @@
     </div>
 
     <div class="right-contents">
-        <h3 class="name">{{ $item['name'] }}</h3>
+        <h3 class="name">
+            @if(!is_null($item['purchaser_id']))
+                <span class="sold">sold</span>
+            @endif
+            {{ $item['name'] }}
+        </h3>
         <p class="price"><span>￥</span>{{ number_format($item['price']) }}<span>(税込み)</span></p>
         <div class="icon">
             <form class="like-form" action="/like/{{ $item['id'] }}" method="POST">
@@ -44,7 +49,11 @@
             <h3 class="title">商品情報</h3>
             <div class="category">
                 <h4 class="sub-title">カテゴリー</h4>
-                <p>かてごりーだよ</p>
+                <div class="category__item">
+                    @foreach ($categories as $category)
+                        <label class="category__item--label">{{ $category['name'] }}</label>
+                    @endforeach
+                </div>
             </div>
             <div class="condition">
                 <h4 class="sub-title">商品の状態</h4>

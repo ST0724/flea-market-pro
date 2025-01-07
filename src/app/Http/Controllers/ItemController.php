@@ -6,17 +6,32 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Condition;
+use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\AddressRequest;
+use App\Http\Requests\SellRequest;
 
 class ItemController extends Controller
 {
     // 商品一覧画面
-    public function index(){
-        $items = Item::all();
+    public function index(Request $request){
+        $user_id = Auth::id();
+        $user = Auth::user();
+        $tab = $request->tab;
+
+        if ($tab === 'mylist') {
+            $items = Item::whereHas('likes', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })->get();
+        }else{
+            $items = Item::where('seller_id', '!=', $user_id)->get();
+        }
+    
         return view('index', compact('items'));
     }
 
@@ -25,18 +40,20 @@ class ItemController extends Controller
         if(is_null($request->keyword)){
             return redirect('/');
         }
-        $items = Item::KeywordSearch($request->keyword)->get();
+        $user_id = Auth::id();
+        $items = Item::KeywordSearch($request->keyword)->where('seller_id', '!=', $user_id)->get();
         return view('index', compact('items'));
     }
 
     // 商品詳細画面
     public function item($item_id){
         $item = Item::with('condition','likes')->find($item_id);
+        $categories = Item::findOrFail($item_id)->categories;
         $comments = Comment::with('user')->where('item_id', $item_id)->get();
         $count_comments = Comment::where('item_id', $item_id)->count();
         $count_likes = Like::where('item_id', $item_id)->count();
         $isLiked = $item->isLikedByUser(Auth::user());
-        return view('item', compact('item', 'count_comments', 'count_likes', 'comments', 'isLiked'));
+        return view('item', compact('item', 'categories', 'count_comments', 'count_likes', 'comments', 'isLiked'));
     }
 
     public function comment(CommentRequest $request, $item_id){
@@ -67,21 +84,20 @@ class ItemController extends Controller
         $item = Item::find($item_id);
         $user = Auth::user();
         $destination = session('destination');
+        session()->forget('destination');
         if (is_null($destination)) {
             $user = Auth::user();
             $destination['address'] = $user->address;
             $destination['post_code'] = $user->post_code;
             $destination['building'] = $user->building;
-            session(['destination' => $destination]);
         }
         return view('purchase', compact('item', 'user', 'destination'));
     }
 
-    public function purchaseStore($item_id){
-        $destination = session('destination');
+    public function purchaseStore(PurchaseRequest $request, $item_id){
+        $destination = $request->only(['address', 'post_code', 'building']);
         $destination['item_id'] = $item_id;
         Destination::create($destination);
-        session()->forget('destination');
 
         $item['purchaser_id'] = Auth::id();
         Item::find($item_id)->update($item);
@@ -95,7 +111,7 @@ class ItemController extends Controller
         return view('address', compact('item'));
     }
 
-    public function addressStore(Request $request, $item_id){
+    public function addressStore(AddressRequest $request, $item_id){
         $destination = $request->only(['address', 'post_code', 'building']);
         $destination['item_id'] = $item_id;
         session(['destination' => $destination]);
@@ -105,13 +121,25 @@ class ItemController extends Controller
     // 出品画面
     public function sell(){
         $conditions = Condition::all();
-        return view('sell', compact('conditions'));
+        $categories = Category::all();
+        return view('sell', compact('conditions', 'categories'));
     }
 
-    public function sellStore(Request $request){
-        $item = $request->only(['image', 'name', 'condition_id', 'description', 'price']);
-        $item['seller_id'] = Auth::id();
-        Item::create($item);
+    public function sellStore(SellRequest $request){
+        $checkedCategories = $request->input('categories', []);
+        $itemData = $request->only(['name', 'condition_id', 'description', 'price']);
+        $itemData['seller_id'] = Auth::id();
+        
+        $fileName = time() . '.' . $request->image->extension();
+        $path = $request->file('image')->storeAs('images', $fileName, 'public');
+        $itemData['image'] = $path;
+
+        $item = Item::create($itemData);
+
+        if (!empty($checkedCategories)) {
+            $item->categories()->attach($checkedCategories);
+        }
+
         return redirect('/mypage');
     }
 }

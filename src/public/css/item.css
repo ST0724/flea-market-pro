@@ -26,6 +26,18 @@
 .name{
     font-size: 40px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sold {
+    margin-right: 20px;
+    text-align: center;
+    padding: 0px 10px;
+    color: red;
+    border-radius: 30px;
+    border: solid 2px red;
+    font-size: 16px;
 }
 
 .price{
@@ -68,9 +80,20 @@
     align-items: center;
 }
 
-.category p,
+.category__item,
 .condition p {
     margin-left: 50px;
+}
+
+.category__item--label {
+    margin-right: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    color: #000;
+    cursor: pointer;
+    border-radius: 30px;
+    background-color: #d9d9d9;
+    font-size: 16px;
 }
 
 .title{

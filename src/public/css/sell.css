@@ -60,6 +60,31 @@
     text-align: left;
 }
 
+.form__category {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.form__category--label {
+    margin: 10px 5px;
+    display: inline-block;
+    padding: 5px 10px;
+    color: red;
+    cursor: pointer;
+    border-radius: 30px;
+    border: solid 2px red;
+    font-size: 16px;
+}
+
+.form__category--input:checked+.form__category--label {
+    background-color: red;
+    color: white;
+}
+
+.form__category--input {
+    display: none;
+}
+
 .form__group--input {
     width: 100%;
 }

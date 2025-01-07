@@ -40,8 +40,26 @@
                 </div>
                 <div class="left-contents__address">
                     <p class="left-contents__post-code"><span>〒</span>{{ $destination['post_code'] }}</p>
+                    <input type="hidden" name="post_code" value="{{ $destination['post_code'] }}">
                     <p class="left-contents__address">{{ $destination['address'] }}</p>
+                    <input type="hidden" name="address" value="{{ $destination['address'] }}">
                     <p class="left-contents__building">{{ $destination['building'] }}</p>
+                    <input type="hidden" name="building" value="{{ $destination['building'] }}">
+                </div>
+                <div class="form__error">
+                    @error('post_code')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="form__error">
+                    @error('address')
+                    {{ $message }}
+                    @enderror
+                </div>
+                <div class="form__error">
+                    @error('building')
+                    {{ $message }}
+                    @enderror
                 </div>
             </div>
         </div>

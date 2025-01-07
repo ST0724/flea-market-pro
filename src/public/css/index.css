@@ -52,3 +52,12 @@
 .item__card--image {
     width: 100%;
 }
+
+.sold {
+    margin: 10px 5px;
+    display: inline-block;
+    padding: 0px 10px;
+    color: red;
+    border-radius: 30px;
+    border: solid 2px red;
+}
