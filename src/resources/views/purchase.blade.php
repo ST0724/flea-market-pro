@@ -39,12 +39,12 @@
                     <a href="/purchase/address/{{ $item['id'] }}">変更する</a>
                 </div>
                 <div class="left-contents__address">
-                    <p class="left-contents__post-code"><span>〒</span>{{ $destination['post_code'] }}</p>
-                    <input type="hidden" name="post_code" value="{{ $destination['post_code'] }}">
-                    <p class="left-contents__address">{{ $destination['address'] }}</p>
-                    <input type="hidden" name="address" value="{{ $destination['address'] }}">
-                    <p class="left-contents__building">{{ $destination['building'] }}</p>
-                    <input type="hidden" name="building" value="{{ $destination['building'] }}">
+                    <p class="left-contents__post-code"><span>〒</span>{{ old('post_code', $destination['post_code'] ?? '') }}</p>
+                    <input type="hidden" name="post_code" value="{{ old('post_code', $destination['post_code'] ?? '') }}">
+                    <p class="left-contents__address">{{ old('address', $destination['address'] ?? '') }}</p>
+                    <input type="hidden" name="address" value="{{ old('address', $destination['address'] ?? '') }}">
+                    <p class="left-contents__building">{{ old('building', $destination['building'] ?? '') }}</p>
+                    <input type="hidden" name="building" value="{{ old('building', $destination['building'] ?? '') }}">
                 </div>
                 <div class="form__error">
                     @error('post_code')

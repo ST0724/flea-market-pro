@@ -22,8 +22,6 @@ class CreateItemsTable extends Migration
             $table->foreignId('condition_id')->constrained()->cascadeOnDelete();
             $table->foreignId('seller_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('purchaser_id')->nullable()->constrained('users')->cascadeOnDelete();
-            
-            // $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

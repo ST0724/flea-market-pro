@@ -19,6 +19,7 @@ Laravel環境構築
 + Laravel 8.83.8
 
 ## ER図
+![ER図](image.png)
 
 ## URL
 開発環境：[http://localhost/](http://localhost/)

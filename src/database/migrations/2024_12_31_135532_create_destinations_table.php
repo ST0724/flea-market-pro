@@ -16,9 +16,9 @@ class CreateDestinationsTable extends Migration
         Schema::create('destinations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->string('address')->nullable();
-            $table->string('building')->nullable();
-            $table->integer('post_code')->nullable();
+            $table->string('address');
+            $table->string('building');
+            $table->string('post_code');
             $table->timestamps();
         });
     }
