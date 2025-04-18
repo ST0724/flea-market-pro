@@ -18,6 +18,19 @@ Laravel環境構築
 ## 使用技術(実行環境)
 + Laravel 8.83.8
 
+## テストアカウント
+name:テストユーザー1   
+email:test1@example.com  
+password:test_user1  
+
+name:テストユーザー2   
+email:test2@example.com  
+password:test_user2  
+
+name:テストユーザー3   
+email:test3@example.com  
+password:test_user3  
+
 ## ER図
 ![ER図](ER.png)
 
