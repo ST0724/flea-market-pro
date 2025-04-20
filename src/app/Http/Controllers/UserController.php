@@ -48,9 +48,19 @@ class UserController extends Controller
             $items = Item::where('purchaser_id', Auth::id())->get();
         }else if($tab === 'sell'){
             $items = Item::where('seller_id', Auth::id())->get();
+        }else if($tab === 'haggling'){
+            $items = collect();
         }else{
             $items = collect();
         }
         return view('profile',compact('items', 'user'));
+    }
+
+    // チャット画面
+    public function chat($item_id){
+        $item = Item::with('hagglingUser')->find($item_id);
+         $item = Item::find($item_id);
+         $user = Auth::user();
+        return view('chat', compact('item','user'));
     }
 }

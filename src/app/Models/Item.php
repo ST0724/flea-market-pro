@@ -15,14 +15,9 @@ class Item extends Model
         'image',
         'description',
         'condition_id',
-        // 'category_id',
         'seller_id',
         'purchaser_id'
     ];
-
-    // public function category(){
-    //     return $this->belongsTo(Category::class);
-    // }
 
     public function condition(){
         return $this->belongsTo(Condition::class);
@@ -53,5 +48,8 @@ class Item extends Model
     public function categories(){
         return $this->belongsToMany(Category::class, 'categories_items', 'item_id', 'category_id');
     }
-    
+
+    public function hagglingUser(){
+        return $this->belongsTo(User::class, 'haggling_user_id');
+    }
 }

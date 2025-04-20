@@ -21,6 +21,7 @@
             <div class="category">
                 <a href="{{ url('/mypage?tab=sell') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=sell')) ? 'active' : '' }}">出品した商品</a>
                 <a href="{{ url('/mypage?tab=buy') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=buy')) ? 'active' : '' }}">購入した商品</a>
+                <a href="{{ url('/mypage?tab=haggling') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=haggling')) ? 'active' : '' }}">取引中の商品</a>
             </div>
 
             <div class="item">

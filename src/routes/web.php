@@ -64,3 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'profileEdit']);
 });
 Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);
+
+// チャット画面
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{item_id}', [UserController::class, 'chat']);
+});
