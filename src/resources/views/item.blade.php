@@ -40,6 +40,14 @@
         <div class="purchase__button">
             <button class="purchase__button--submit" onclick="location.href='/purchase/{{ $item['id'] }}'">購入手続きへ</button>
         </div>
+        <!-- 取引チャットのための追加処理 -->
+        <form class="transaction-form" action="/transaction/{{ $item['id'] }}" method="POST">
+            @csrf
+            <div class="purchase__button">
+                <button class="purchase__button--submit">取引へ</button>
+            </div>
+        </form>
+        <!-- 追加処理ここまで -->
 
         <div class="description">
             <h3 class="title">商品説明</h3>

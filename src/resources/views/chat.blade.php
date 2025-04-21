@@ -11,13 +11,17 @@
         <div class="main">
             <div class="title">
                 <div class="title__user">
-                    <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="title__image" accept=".png, .jpeg, .jpg">
-                    <h3 class="title__name">「ユーザー名」さんとの取引画面</h3>
+                    <img src="{{ asset('storage/'. $partner['image']) }}" alt="画像" class="title__image" accept=".png, .jpeg, .jpg">
+                    <h3 class="title__name">「{{$partner['name']}}」さんとの取引画面</h3>
                 </div>
-                <!-- 購入者側なら取引完了ボタンを実装 -->
-                <div class="completed__button">
-                    <button class="completed__button--submit" onclick="location.href='/mypage/profile'">取引を完了する</button>
-                </div>
+                 @if($item['seller_id'] !== Auth::id())
+                    <form class="transaction-form" action="/chat/completed{{ $transaction_id }}" method="POST">
+                        @csrf
+                        <div class="completed__button">
+                            <button class="completed__button--submit">取引を完了する</button>
+                        </div>
+                    </form>
+                @endif
             </div>
             <div class="item">
                 <div class="item__image">
@@ -29,9 +33,9 @@
                 </div>
             </div>
             <div class="chat">
-                <div class="comment__user">
-                    <img class="comment__user--image" src="{{ asset('storage/'. $comment['user']['image']) }}" alt="画像">
-                    <h4 class="comment__user--name">{{ $comment['user']['name'] }}</h4>
+                <div class="chat__user">
+                    <img class="chat__user--image" src="{{ asset('storage/'. $user['image']) }}" alt="画像">
+                    <h4 class="chat__user--name">{{ $user['name'] }}</h4>
                 </div>
 
             </div>

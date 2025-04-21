@@ -49,7 +49,7 @@ class Item extends Model
         return $this->belongsToMany(Category::class, 'categories_items', 'item_id', 'category_id');
     }
 
-    public function hagglingUser(){
-        return $this->belongsTo(User::class, 'haggling_user_id');
+    public function transactions(){
+        return $this->hasMany(Transaction::class, 'item_id');
     }
 }

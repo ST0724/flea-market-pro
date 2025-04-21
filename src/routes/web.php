@@ -24,6 +24,7 @@ Route::get('/item/{item_id}', [ItemController::class, 'item']);
 
 Route::middleware('auth')->group(function () {
     Route::post('/item/{item_id}', [ItemController::class, 'comment']);
+    Route::post('/transaction/{item_id}', [ItemController::class, 'transactionStore']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -67,5 +68,5 @@ Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);
 
 // チャット画面
 Route::middleware('auth')->group(function () {
-    Route::get('/chat/{item_id}', [UserController::class, 'chat']);
+    Route::get('/chat/{transaction_id}', [UserController::class, 'chat']);
 });

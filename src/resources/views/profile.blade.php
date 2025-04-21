@@ -16,33 +16,36 @@
             </div>
         </div>
 
+        <div class="category">
+            <a href="{{ url('/mypage?tab=sell') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=sell')) ? 'active' : '' }}">出品した商品</a>
+            <a href="{{ url('/mypage?tab=buy') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=buy')) ? 'active' : '' }}">購入した商品</a>
+            <a href="{{ url('/mypage?tab=haggling') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=haggling')) ? 'active' : '' }}">取引中の商品</a>
+        </div>
 
-
-            <div class="category">
-                <a href="{{ url('/mypage?tab=sell') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=sell')) ? 'active' : '' }}">出品した商品</a>
-                <a href="{{ url('/mypage?tab=buy') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=buy')) ? 'active' : '' }}">購入した商品</a>
-                <a href="{{ url('/mypage?tab=haggling') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=haggling')) ? 'active' : '' }}">取引中の商品</a>
+        <div class="item">
+            <div class="item__image">
+                @foreach($items as $item)
+                    <div class="item__card">
+                        @php
+                            $transaction = $item->transactions->first();
+                        @endphp
+                        @if(request('tab') == 'haggling' && $transaction)
+                            <a href="/chat/{{ $transaction->id }}" class="item__card--link">
+                        @else
+                            <a href="/item/{{ $item->id }}" class="item__card--link">
+                        @endif
+                            <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
+                            <div class="item__card--info">
+                                @if(!is_null($item['purchaser_id']))
+                                    <span class="sold">sold</span>
+                                @endif
+                                <span>{{ $item['name'] }}</span>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
+        </div>
 
-            <div class="item">
-                <div class="item__image">
-                    @foreach($items as $item)
-                        <div class="item__card">
-                            <a href="/item/{{ $item['id'] }}" class="item__card--link">
-                                <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
-                                <div class="item__card--info">
-                                    @if(!is_null($item['purchaser_id']))
-                                        <span class="sold">sold</span>
-                                    @endif
-                                    <span>{{ $item['name'] }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        
-        
     </div>
-
 @endsection

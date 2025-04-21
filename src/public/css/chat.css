@@ -82,5 +82,22 @@
 
 .chat{
     height: 50%;
+    padding: 10px;
     background-color:aqua;
+}
+
+.chat__user {
+    margin: 10px 0;
+    display: flex;
+}
+
+.chat__user--image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.chat__user--name {
+    margin: auto 10px;
+    font-size: 20px;
 }

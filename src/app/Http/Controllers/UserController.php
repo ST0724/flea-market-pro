@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Transaction;
 use App\Http\Requests\ProfileEditRequest;
 
 class UserController extends Controller
@@ -49,7 +50,17 @@ class UserController extends Controller
         }else if($tab === 'sell'){
             $items = Item::where('seller_id', Auth::id())->get();
         }else if($tab === 'haggling'){
-            $items = collect();
+            $items = Item::whereHas('transactions', function ($query) {
+                $query->where(function ($q) {
+                    $q->where('seller_id', Auth::id())
+                    ->orWhere('purchaser_id', Auth::id());
+                });
+            })->with(['transactions' => function($q) {
+                $q->where(function ($q2) {
+                    $q2->where('seller_id', Auth::id())
+                    ->orWhere('purchaser_id', Auth::id());
+                });
+            }])->get();
         }else{
             $items = collect();
         }
@@ -57,10 +68,19 @@ class UserController extends Controller
     }
 
     // チャット画面
-    public function chat($item_id){
-        $item = Item::with('hagglingUser')->find($item_id);
-         $item = Item::find($item_id);
-         $user = Auth::user();
-        return view('chat', compact('item','user'));
+    public function chat($transaction_id){
+        $transaction = Transaction::find($transaction_id);
+        $item = Item::find($transaction->item_id);
+        $user = Auth::user();
+
+        //自分が出品者の場合
+        if($transaction['seller_id'] === Auth::id()){
+            $partner = User::find($transaction->purchaser_id);
+        }else{
+        //自分が購入者の場合
+            $partner = User::find($transaction->seller_id);
+        }
+        //$target = Message::
+        return view('chat', compact('item','user', 'partner', 'transaction_id'));
     }
 }
