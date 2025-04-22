@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'transaction_id', 'purchaser_id', 'text'];
+    protected $fillable = ['user_id', 'transaction_id', 'text', 'image'];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -17,9 +17,5 @@ class Message extends Model
 
     public function transaction(){
         return $this->belongsTo(Transaction::class);
-    }
-
-    public function target(){
-        return $this->belongsTo(User::class, 'purchaser_id');
     }
 }

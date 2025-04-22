@@ -69,4 +69,5 @@ Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);
 // チャット画面
 Route::middleware('auth')->group(function () {
     Route::get('/chat/{transaction_id}', [UserController::class, 'chat']);
+    Route::post('/chat/{transaction_id}', [UserController::class, 'chatStore']);
 });

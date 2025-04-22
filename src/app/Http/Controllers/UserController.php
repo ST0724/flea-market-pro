@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Transaction;
+use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
 
 class UserController extends Controller
@@ -67,20 +68,57 @@ class UserController extends Controller
         return view('profile',compact('items', 'user'));
     }
 
+
     // チャット画面
     public function chat($transaction_id){
         $transaction = Transaction::find($transaction_id);
         $item = Item::find($transaction->item_id);
         $user = Auth::user();
+        $messages = Message::with('user')->where('transaction_id', $transaction_id)->get();
 
-        //自分が出品者の場合
+        //サイドバーに表示する商品の取得
+        $others = Item::whereHas('transactions', function ($query) {
+                $query->where(function ($q) {
+                    $q->where('seller_id', Auth::id())
+                    ->orWhere('purchaser_id', Auth::id());
+                });
+            })->with(['transactions' => function($q) {
+                $q->where(function ($q2) {
+                    $q2->where('seller_id', Auth::id())
+                    ->orWhere('purchaser_id', Auth::id());
+                });
+            }])->get();
+
+            // $transaction_idと一致するTransactionを持つItemを除外
+            $others = $others->reject(function($item) use ($transaction_id) {
+                return $item->transactions->contains('id', $transaction_id);
+            })->values(); 
+
         if($transaction['seller_id'] === Auth::id()){
-            $partner = User::find($transaction->purchaser_id);
+            //自分が出品者の場合
+            $target = User::find($transaction->purchaser_id);
         }else{
-        //自分が購入者の場合
-            $partner = User::find($transaction->seller_id);
+            //自分が購入者の場合
+            $target = User::find($transaction->seller_id);
         }
-        //$target = Message::
-        return view('chat', compact('item','user', 'partner', 'transaction_id'));
+
+        return view('chat', compact('item','user', 'target', 'transaction_id', 'others', 'messages'));
+    }
+
+    
+    public function chatStore(Request $request){
+        $transaction_id = $request->input('transaction_id');
+        $message = $request->only(['text']);
+        $message['user_id'] = Auth::id();
+        $message['transaction_id'] = $transaction_id;
+
+        if ($request->hasFile('image')) {
+            $fileName = time() . '.' . $request->file('image')->extension();
+            $path = $request->file('image')->storeAs('images', $fileName, 'public');
+            $message['image'] = $path;
+        }
+
+        Message::create($message);
+        return redirect("/chat/{$transaction_id}");
     }
 }

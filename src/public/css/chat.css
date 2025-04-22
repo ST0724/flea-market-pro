@@ -7,6 +7,27 @@
     width: 15%;
     height: 100vh;
     background-color: #868686;
+    text-align: center;
+}
+
+.side__title{
+    color: white;
+    font-size: 30px;
+    margin: 10px auto;
+}
+
+.side__button {
+    margin: 30px auto;
+    width: 80%;
+}
+
+.side__button--submit{
+    height: 50px;
+    width: 100%;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 3px;
+    border: solid #EEEFEB 2px;
 }
 
 .main{
@@ -80,24 +101,130 @@
     font-size: 20px;
 }
 
-.chat{
-    height: 50%;
-    padding: 10px;
-    background-color:aqua;
+.history {
+    height: 65vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
 }
 
-.chat__user {
-    margin: 10px 0;
+.history__message {
+    width: 40%;
+    margin: 20px;
+    clear: both;
+    text-align: left;
+}
+
+.history__message--left {
+    float: left;
+}
+
+.history__message--right {
+    float: right;
+    margin-left: auto;
+}
+
+.history__user--left {
     display: flex;
 }
 
-.chat__user--image {
+.history__user--right{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.history__user--image {
     width: 60px;
     height: 60px;
     border-radius: 50%;
 }
 
-.chat__user--name {
+.history__user--name {
     margin: auto 10px;
     font-size: 20px;
+}
+
+.history__picture{
+    margin: 10px 0;
+    width: 30%;
+}
+
+.history__picture--right{
+    margin-left: auto;
+}
+
+.history__picture--image{
+    width: 100%;
+}
+
+.history__text{
+    background-color: #E5E5E5;
+    padding: 3px 10px;
+    margin: 15px 0;
+    border-radius: 3px;
+}
+
+.chat {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    padding: 10px;
+}
+
+.chat__textarea {
+    margin: auto 20px;
+    width: 70%;
+    height: 44px;
+}
+
+.chat__textarea textarea {
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    font-size: 20px;
+    border: solid #5F5F5F 1px;
+    border-radius: 3px;
+    resize: none;
+    overflow: hidden;
+}
+
+.chat__picture{
+    margin: auto 0;
+}
+
+.chat__picture--label {
+    display: inline-block;
+    margin: auto 20px;
+    padding: 10px 10px;
+    color: red;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    border: solid 2px red;
+    font-size: 16px;
+}
+
+.chat__picture--input {
+    display: none;
+}
+
+.chat__button {
+    margin: 0 auto;
+}
+
+.chat__button--submit {
+    width: 80px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+}
+
+.chat__button--image {
+    width: 100%;
+    text-align: center;
 }
