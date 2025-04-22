@@ -30,12 +30,10 @@
                     <h3 class="title__name">「{{$target['name']}}」さんとの取引画面</h3>
                 </div>
                  @if($item['seller_id'] !== Auth::id())
-                    <form class="transaction-form" action="/chat/completed{{ $transaction_id }}" method="POST">
-                        @csrf
-                        <div class="completed__button">
-                            <button class="completed__button--submit">取引を完了する</button>
-                        </div>
-                    </form>
+                    <div class="completed__button">
+                        <button class="completed__button--submit" id="modal-open">取引を完了する</button>
+                    </div>
+                    @include('modal')
                 @endif
             </div>
             <div class="item">
@@ -68,16 +66,13 @@
                         </div>
                         @if($isMine)
                             <div class="history__edit">
-                                <form class="edit-form" action="/chat/{transaction_id}/edit" method="post">
-                                    @csrf
-                                    <button class="history__edit-button" onclick="editMessage({{ $message->id }}, '{{ addslashes($message->text) }}')">編集</button>
-                                </form>
+                                <button class="history__edit-button">編集</button>
                                 <form class="delete-form" action="/chat/{transaction_id}/delete" method="post">
                                     @method('DELETE')
                                     @csrf
                                     <input type="hidden" name="message_id" value="{{ $message['id'] }}">
                                     <input type="hidden" name="transaction_id" value="{{ $transaction_id }}">
-                                    <button class="history__delete-button" onclick="editMessage({{ $message->id }}, '{{ addslashes($message->text) }}')">削除</button>
+                                    <button class="history__delete-button">削除</button>
                                 </form>
                             </div>
                         @endif
@@ -130,4 +125,18 @@
             </script>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(function() {
+        // モーダルを開く
+        $("#modal-open").click(function() {
+            $("#modal-content").fadeIn("fast");
+        });
+        // モーダルを閉じる
+        $("#modal-close").click(function() {
+            $("#modal-content").fadeOut("fast");
+        });
+    });
+    </script>
 @endsection

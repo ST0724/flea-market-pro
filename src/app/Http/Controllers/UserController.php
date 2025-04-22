@@ -128,4 +128,9 @@ class UserController extends Controller
         $transaction_id = $request->input('transaction_id');
         return redirect("/chat/{$transaction_id}");
     }
+
+    public function chatRating(Request $request){
+        $transaction_id = $request->input('transaction_id');
+        return redirect("/chat/{$transaction_id}");
+    }
 }
