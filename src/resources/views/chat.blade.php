@@ -66,6 +66,21 @@
                         <div class="history__text">
                             <p>{{ $message['text'] }}</p>
                         </div>
+                        @if($isMine)
+                            <div class="history__edit">
+                                <form class="edit-form" action="/chat/{transaction_id}/edit" method="post">
+                                    @csrf
+                                    <button class="history__edit-button" onclick="editMessage({{ $message->id }}, '{{ addslashes($message->text) }}')">編集</button>
+                                </form>
+                                <form class="delete-form" action="/chat/{transaction_id}/delete" method="post">
+                                    @method('DELETE')
+                                    @csrf
+                                    <input type="hidden" name="message_id" value="{{ $message['id'] }}">
+                                    <input type="hidden" name="transaction_id" value="{{ $transaction_id }}">
+                                    <button class="history__delete-button" onclick="editMessage({{ $message->id }}, '{{ addslashes($message->text) }}')">削除</button>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

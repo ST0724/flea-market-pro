@@ -69,4 +69,5 @@ Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);
 Route::middleware('auth')->group(function () {
     Route::get('/chat/{transaction_id}', [UserController::class, 'chat']);
     Route::post('/chat/{transaction_id}', [UserController::class, 'chatStore']);
+    Route::delete('/chat/{transaction_id}/delete', [UserController::class, 'chatDestroy']);
 });

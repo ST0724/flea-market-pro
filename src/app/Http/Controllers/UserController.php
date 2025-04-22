@@ -122,4 +122,10 @@ class UserController extends Controller
         Message::create($message);
         return redirect("/chat/{$transaction_id}");
     }
+
+    public function chatDestroy(Request $request){
+        Message::find($request->message_id)->delete();
+        $transaction_id = $request->input('transaction_id');
+        return redirect("/chat/{$transaction_id}");
+    }
 }
