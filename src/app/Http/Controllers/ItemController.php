@@ -103,7 +103,16 @@ class ItemController extends Controller
         $item['purchaser_id'] = Auth::id();
         Item::find($item_id)->update($item);
 
-        return redirect('/');
+        $item = Item::find($item_id);
+
+        $transaction = Transaction::create([
+            'item_id'      => $item_id,
+            'purchaser_id' => Auth::id(),
+            'seller_id'    => $item->seller_id,
+        ]);
+
+        $transaction_id = $transaction->id;
+        return redirect("/chat/{$transaction_id}");
     }
 
     // 住所変更ページ
@@ -142,19 +151,5 @@ class ItemController extends Controller
         }
 
         return redirect('/mypage');
-    }
-
-    //取引テーブルへデータ追加
-    public function transactionStore($item_id){
-        $item = Item::find($item_id);
-
-        $transaction = Transaction::create([
-            'item_id'      => $item_id,
-            'purchaser_id' => Auth::id(),
-            'seller_id'    => $item->seller_id,
-        ]);
-
-        $transaction_id = $transaction->id;
-        return redirect("/chat/{$transaction_id}");
     }
 }

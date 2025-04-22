@@ -24,7 +24,6 @@ Route::get('/item/{item_id}', [ItemController::class, 'item']);
 
 Route::middleware('auth')->group(function () {
     Route::post('/item/{item_id}', [ItemController::class, 'comment']);
-    Route::post('/transaction/{item_id}', [ItemController::class, 'transactionStore']);
 });
 
 Route::middleware('auth')->group(function () {

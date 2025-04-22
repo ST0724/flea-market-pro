@@ -113,6 +113,7 @@
 .history__message {
     width: 40%;
     margin: 20px;
+    margin-bottom: 30px;
     clear: both;
     text-align: left;
 }
@@ -169,8 +170,11 @@
 .chat {
     width: 100%;
     text-align: center;
-    display: flex;
     padding: 10px;
+}
+
+.chat__wrap{
+    display: flex;
 }
 
 .chat__textarea {
@@ -227,4 +231,11 @@
 .chat__button--image {
     width: 100%;
     text-align: center;
+}
+
+.form__error {
+    height: 20px;
+    color: #ff0000;
+    text-align: left;
+    margin-left: 20px;
 }

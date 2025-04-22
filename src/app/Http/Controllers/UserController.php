@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\Transaction;
 use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
+use App\Http\Requests\MessageRequest;
 
 class UserController extends Controller
 {
@@ -106,7 +107,7 @@ class UserController extends Controller
     }
 
     
-    public function chatStore(Request $request){
+    public function chatStore(MessageRequest $request){
         $transaction_id = $request->input('transaction_id');
         $message = $request->only(['text']);
         $message['user_id'] = Auth::id();

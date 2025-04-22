@@ -69,27 +69,50 @@
                     </div>
                 @endforeach
             </div>
-            <form  class="chat" action="/chat/{transaction_id}" method="post" enctype="multipart/form-data">
+            <form  class="chat" action="/chat/{transaction_id}" method="post" enctype="multipart/form-data" id="chatForm">
                 @csrf
-                <input type="hidden" name="transaction_id" value="{{ $transaction_id }}">
-                <div class="chat__textarea">
-                    <textarea name="text" rows="1"></textarea>
-                </div>
-                <div class="chat__picture">
-                    <label class="chat__picture--label" for="chat__picture">画像を選択する</label>
-                        <input type="file" class="chat__picture--input" id="chat__picture" name="image">
-                    <div class="form__error">
-                        @error('image')
+                <div class="form__error">
+                    @error('text')
                         {{ $message }}
-                        @enderror
+                    @enderror
+                </div>
+                <div class="form__error">
+                    @error('image')
+                        {{ $message }}
+                    @enderror
+                </div>
+                <div class="chat__wrap">
+                    <input type="hidden" name="transaction_id" value="{{ $transaction_id }}">
+                    <div class="chat__textarea">
+                        <textarea name="text" id="chatText" rows="1">{{ old('text') }}</textarea>
+                    </div>
+                    <div class="chat__picture">
+                        <label class="chat__picture--label" for="chat__picture">画像を選択する</label>
+                        <input type="file" class="chat__picture--input" id="chat__picture" name="image">
+                    </div>
+                    <div class="chat__button">
+                        <button class="chat__button--submit" type="submit" id="sendBtn">
+                            <img class="chat__button--image" src="{{ asset('storage/inputbuttun 1.svg') }}" alt="ボタン">
+                        </button>
                     </div>
                 </div>
-                <div class="chat__button">
-                    <button class="chat__button--submit" type="submit">
-                        <img class="chat__button--image" src="{{ asset('storage/inputbuttun 1.svg') }}" alt="ボタン">
-                    </button>
-                </div>
             </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var saved = localStorage.getItem('chatText');
+                    if (saved !== null) {
+                        document.getElementById('chatText').value = saved;
+                    }
+                });
+
+                document.getElementById('chatText').addEventListener('input', function() {
+                    localStorage.setItem('chatText', this.value);
+                });
+
+                document.getElementById('chatForm').addEventListener('submit', function() {
+                    localStorage.removeItem('chatText'); 
+                });
+            </script>
         </div>
     </div>
 @endsection
