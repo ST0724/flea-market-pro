@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
 use App\Http\Requests\MessageRequest;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -46,23 +47,34 @@ class UserController extends Controller
     // プロフィール画面
     public function profile(Request $request){
         $user = Auth::user();
+        $user_id = Auth::id();
         $tab = $request->tab;
+
         if ($tab === 'buy') {
-            $items = Item::where('purchaser_id', Auth::id())->get();
+            $items = Item::where('purchaser_id', $user_id)->get();
         }else if($tab === 'sell'){
-            $items = Item::where('seller_id', Auth::id())->get();
+            $items = Item::where('seller_id', $user_id)->get();
         }else if($tab === 'haggling'){
-            $items = Item::whereHas('transactions', function ($query) {
-                $query->where(function ($q) {
-                    $q->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
+            $items = Item::whereHas('transactions', function ($query) use ($user_id) {
+                $query->where(function ($q) use ($user_id) {
+                    $q->where('seller_id', $user_id)
+                    ->orWhere('purchaser_id', $user_id);
                 });
-            })->with(['transactions' => function($q) {
-                $q->where(function ($q2) {
-                    $q2->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
-                });
-            }])->get();
+            })->with(['transactions' => function($q) use ($user_id) {
+                $q->where(function ($q2) use ($user_id) {
+                    $q2->where('seller_id', $user_id)
+                    ->orWhere('purchaser_id', $user_id);
+            })->with('messages');
+            }])->addSelect([
+                'latest_message' => Message::select(DB::raw('MAX(created_at)'))
+                    ->whereHas('transaction', function ($q) use ($user_id) {
+                        $q->whereColumn('transactions.item_id', 'items.id')
+                        ->where(function ($q2) use ($user_id) {
+                            $q2->where('seller_id', $user_id)
+                                ->orWhere('purchaser_id', $user_id);
+                        });
+                    })
+            ])->orderByDesc('latest_message')->get();
         }else{
             $items = collect();
         }
