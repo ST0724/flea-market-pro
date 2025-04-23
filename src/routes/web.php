@@ -64,3 +64,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'profileEdit']);
 });
 Route::patch('/mypage/profile', [UserController::class, 'profileEditUpdate']);
+
+// チャット画面
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{transaction_id}', [UserController::class, 'chat']);
+    Route::post('/chat/{transaction_id}', [UserController::class, 'chatStore']);
+    Route::delete('/chat/{transaction_id}/delete', [UserController::class, 'chatDestroy']);
+
+    Route::post('/chat/{transaction_id}/rating', [UserController::class, 'chatRating']);
+});

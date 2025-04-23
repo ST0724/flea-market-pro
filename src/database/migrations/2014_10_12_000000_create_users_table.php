@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('building')->nullable();
             $table->string('post_code')->nullable();
             $table->string('image')->nullable();
+            $table->integer('rating_sum')->default(0);
+            $table->integer('rating_count')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

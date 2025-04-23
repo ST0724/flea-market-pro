@@ -9,6 +9,7 @@ use App\Models\Condition;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Transaction;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentRequest;
@@ -102,7 +103,16 @@ class ItemController extends Controller
         $item['purchaser_id'] = Auth::id();
         Item::find($item_id)->update($item);
 
-        return redirect('/');
+        $item = Item::find($item_id);
+
+        $transaction = Transaction::create([
+            'item_id'      => $item_id,
+            'purchaser_id' => Auth::id(),
+            'seller_id'    => $item->seller_id,
+        ]);
+
+        $transaction_id = $transaction->id;
+        return redirect("/chat/{$transaction_id}");
     }
 
     // 住所変更ページ

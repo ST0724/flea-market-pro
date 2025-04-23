@@ -60,7 +60,7 @@ class ItemsTableSeeder extends Seeder
             'image' => 'Living+Room+Laptop.jpg',
             'description' => '高性能なノートパソコン',
             'condition_id' => '1',
-            'seller_id' => '2'
+            'seller_id' => '1'
         ];
         DB::table('items')->insert($param);
 
@@ -100,7 +100,7 @@ class ItemsTableSeeder extends Seeder
             'image' => 'Waitress+with+Coffee+Grinder.jpg',
             'description' => '手動のコーヒーミル',
             'condition_id' => '1',
-            'seller_id' => '3'
+            'seller_id' => '2'
         ];
         DB::table('items')->insert($param);
 
@@ -110,7 +110,7 @@ class ItemsTableSeeder extends Seeder
             'image' => '外出メイクアップセット.jpg',
             'description' => '便利なメイクアップセット',
             'condition_id' => '2',
-            'seller_id' => '3'
+            'seller_id' => '2'
         ];
         DB::table('items')->insert($param);
     }
