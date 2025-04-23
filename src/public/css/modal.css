@@ -4,7 +4,6 @@
     z-index: 1001;
     background: #FDFCE6;
     border: 1px solid #000;
-    /* 中央配置のための指定 */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -12,23 +11,23 @@
     width: 800px;
 }
 
-.modal__title{
+.modal__title {
     padding: 20px;
     border-bottom: 1px solid #000;
 }
 
-.modal__title h3{
+.modal__title h3 {
     font-size: 35px;
     color: #000;
     margin: 10px;
 }
 
-.modal__question{
+.modal__question {
     padding: 0 20px;
     border-bottom: 1px solid #000;
 }
 
-.modal__question--text{
+.modal__question--text {
     margin: 0;
     margin-top: 20px;
     font-size: 20px;
@@ -61,17 +60,44 @@
     content: '★';
 }
 
-.evaluation__button{
+.evaluation__button {
     margin: 20px;
     padding: 0 20px;
     text-align: right;
 }
 
-.evaluation__button--submit{
+.evaluation__button--submit {
     padding: 10px 20px;
     color: #fff;
     background-color: #FF8282;
     border: 1px solid #FF8282;
     border-radius: 3px;
     font-size: 24px;
+}
+
+@media screen and (max-width: 850px) {
+    #modal-content {
+        width: 500px;
+    }
+
+    .modal__title h3 {
+        font-size: 24px;
+        margin: 5px;
+    }
+
+    .modal__question {
+        padding: 0 20px;
+    }
+
+    .modal__question--text {
+        font-size: 12px;
+    }
+
+    .modal__star label {
+        font-size: 4rem;
+    }
+
+    .evaluation__button--submit {
+        font-size: 20px;
+    }
 }

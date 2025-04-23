@@ -50,18 +50,18 @@
                         @endphp
                         @if(request('tab') == 'haggling' && $transaction)
                             <a href="/chat/{{ $transaction->id }}" class="item__card--link">
-                                @if($item->unread_message_count > 0)
-                                    <span class="badge item__badge">{{ $item->unread_message_count }}</span>
-                                @endif
                         @else
                             <a href="/item/{{ $item->id }}" class="item__card--link">
+                        @endif
+                        @if($item->unread_message_count > 0)
+                            <span class="badge item__badge">{{ $item->unread_message_count }}</span>
                         @endif
                         <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
                         <div class="item__card--info">
                             @if(!is_null($item['purchaser_id']))
                                 <span class="sold">sold</span>
                             @endif
-                            <span>{{ $item['name'] }}</span>
+                            <span class="item__card--name">{{ $item['name'] }}</span>
                         </div>
                         </a>
                     </div>
