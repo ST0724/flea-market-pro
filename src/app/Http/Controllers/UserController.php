@@ -85,7 +85,19 @@ class UserController extends Controller
             $rating = 0;
         }
 
-        return view('profile',compact('items', 'user', 'rating'));
+        $total_unread_count = 0;
+        foreach ($items as $item) {
+            $unread_count = 0;
+            foreach ($item->transactions as $transaction) {
+                $unread_count += $transaction->messages->where('is_read', false)
+                                                    ->where('user_id', '!=', $user_id)
+                                                    ->count();
+            }
+            $item->unread_message_count = $unread_count;
+            $total_unread_count += $unread_count;
+        }
+
+        return view('profile',compact('items', 'user', 'rating', 'total_unread_count'));
     }
 
 
@@ -109,7 +121,7 @@ class UserController extends Controller
                 });
             }])->get();
 
-            // $transaction_idと一致するTransactionを持つItemを除外
+            //$transaction_idと一致するTransactionを持つItemを除外
             $others = $others->reject(function($item) use ($transaction_id) {
                 return $item->transactions->contains('id', $transaction_id);
             })->values(); 
@@ -121,6 +133,12 @@ class UserController extends Controller
             //自分が購入者の場合
             $target = User::find($transaction->seller_id);
         }
+
+        //相手ののメッセージを既読にする
+        Message::where('transaction_id', $transaction_id)
+            ->where('user_id', '!=', $user->id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
 
         return view('chat', compact('item','user', 'target', 'transaction_id', 'transaction', 'others', 'messages'));
     }

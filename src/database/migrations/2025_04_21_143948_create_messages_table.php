@@ -19,6 +19,7 @@ class CreateMessagesTable extends Migration
             $table->foreignId('transaction_id')->constrained()->cascadeOnDelete();
             $table->text('text');
             $table->string('image')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

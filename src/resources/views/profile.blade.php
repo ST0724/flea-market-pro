@@ -32,7 +32,13 @@
         <div class="category">
             <a href="{{ url('/mypage?tab=sell') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=sell')) ? 'active' : '' }}">出品した商品</a>
             <a href="{{ url('/mypage?tab=buy') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=buy')) ? 'active' : '' }}">購入した商品</a>
-            <a href="{{ url('/mypage?tab=haggling') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=haggling')) ? 'active' : '' }}">取引中の商品</a>
+            <a href="{{ url('/mypage?tab=haggling') }}" class="category__title {{ request()->fullUrlIs(url('/mypage?tab=haggling')) ? 'active' : '' }}">
+                取引中の商品
+                @if($total_unread_count > 0)
+                    <span class="badge category__badge">{{ $total_unread_count }}</span>
+                @endif
+            </a>
+            
         </div>
 
         <div class="item">
@@ -44,16 +50,19 @@
                         @endphp
                         @if(request('tab') == 'haggling' && $transaction)
                             <a href="/chat/{{ $transaction->id }}" class="item__card--link">
+                                @if($item->unread_message_count > 0)
+                                    <span class="badge item__badge">{{ $item->unread_message_count }}</span>
+                                @endif
                         @else
                             <a href="/item/{{ $item->id }}" class="item__card--link">
                         @endif
-                            <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
-                            <div class="item__card--info">
-                                @if(!is_null($item['purchaser_id']))
-                                    <span class="sold">sold</span>
-                                @endif
-                                <span>{{ $item['name'] }}</span>
-                            </div>
+                        <img src="{{ asset('storage/'.$item['image']) }}" alt="画像" class="item__card--image">
+                        <div class="item__card--info">
+                            @if(!is_null($item['purchaser_id']))
+                                <span class="sold">sold</span>
+                            @endif
+                            <span>{{ $item['name'] }}</span>
+                        </div>
                         </a>
                     </div>
                 @endforeach
