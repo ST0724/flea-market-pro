@@ -11,11 +11,11 @@
             @foreach($others as $other)
                 @php
                     // 取引中のTransaction（最初の1件）を取得
-                    $transaction = $other->transactions->first();
+                    $sideTransaction = $other->transactions->first();
                 @endphp
-                @if($transaction)
+                @if($sideTransaction)
                     <div class="side__button">
-                        <button class="side__button--submit" onclick="location.href='/chat/{{ $transaction->id }}'">
+                        <button class="side__button--submit" onclick="location.href='/chat/{{ $sideTransaction->id }}'">
                             {{ $other->name }}
                         </button>
                     </div>
@@ -31,9 +31,11 @@
                 </div>
                  @if($item['seller_id'] !== Auth::id())
                     <div class="completed__button">
-                        <button class="completed__button--submit" id="modal-open">取引を完了する</button>
+                        <button class="completed__button--submit" id="modal-open" 
+                            @if($transaction->status !== 0) disabled @endif>
+                            取引を完了する
+                        </button>
                     </div>
-                    @include('modal')
                 @endif
             </div>
             <div class="item">
@@ -128,15 +130,20 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(function() {
-        // モーダルを開く
-        $("#modal-open").click(function() {
-            $("#modal-content").fadeIn("fast");
+        $(function() {
+            // モーダルを開く
+            $("#modal-open").click(function() {
+                $("#modal-content").fadeIn("fast");
+            });
+            // モーダルを閉じる
+            $("#modal-close").click(function() {
+                $("#modal-content").fadeOut("fast");
+            });
+
+            @if($transaction->status == 1 && (int)$transaction->seller_id === (int)Auth::id())
+                $("#modal-content").fadeIn("fast");
+            @endif
         });
-        // モーダルを閉じる
-        $("#modal-close").click(function() {
-            $("#modal-content").fadeOut("fast");
-        });
-    });
     </script>
+    @include('modal')
 @endsection

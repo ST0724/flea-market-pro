@@ -9,7 +9,20 @@
         <div class="user">
             <div class="user__image">
                 <img src="{{ asset('storage/'. $user['image']) }}" alt="画像" class="user__image--icon" accept=".png, .jpeg, .jpg">
-                <h2 class="user__image--name">{{ $user['name'] }}</h2>
+                <div class="user__information">
+                    <h2 class="user__image--name">{{ $user['name'] }}</h2>
+                    @if($rating !==0)
+                        <div class="star-rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $rating)
+                                    <span class="star filled">&#9733;</span>
+                                @else
+                                    <span class="star">&#9733;</span>
+                                @endif
+                            @endfor
+                        </div>
+                    @endif
+                </div>
             </div>
             <div class="user__profile-edit">
                 <button class="user__profile-edit--button" onclick="location.href='/mypage/profile'">プロフィールを編集</button>

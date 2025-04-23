@@ -66,7 +66,14 @@ class UserController extends Controller
         }else{
             $items = collect();
         }
-        return view('profile',compact('items', 'user'));
+
+        if ($user['rating_count'] > 0) {
+            $rating = round($user['rating_sum'] / $user['rating_count']);
+        } else {
+            $rating = 0;
+        }
+
+        return view('profile',compact('items', 'user', 'rating'));
     }
 
 
@@ -103,7 +110,7 @@ class UserController extends Controller
             $target = User::find($transaction->seller_id);
         }
 
-        return view('chat', compact('item','user', 'target', 'transaction_id', 'others', 'messages'));
+        return view('chat', compact('item','user', 'target', 'transaction_id', 'transaction', 'others', 'messages'));
     }
 
     
@@ -130,7 +137,29 @@ class UserController extends Controller
     }
 
     public function chatRating(Request $request){
-        $transaction_id = $request->input('transaction_id');
-        return redirect("/chat/{$transaction_id}");
+        $transaction = Transaction::find($request->input('transaction_id'));
+        $star = $request->input('rating');
+        
+        if($transaction->seller_id === Auth::id()){
+            // 自分が出品者の場合
+            $target = User::find($transaction->purchaser_id);
+            $transaction->status = 2;
+        } else {
+            // 自分が購入者の場合
+            $target = User::find($transaction->seller_id);
+            $transaction->status = 1;
+        }
+
+        $transaction->save();
+
+        $target['rating_sum'] = $target['rating_sum'] + $star;
+        $target->rating_count++;
+        
+        $target->update([
+            'rating_sum' => $target->rating_sum,
+            'rating_count' => $target->rating_count,
+        ]);
+
+        return redirect('/');
     }
 }
