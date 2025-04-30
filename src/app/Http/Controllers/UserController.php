@@ -59,6 +59,11 @@ class UserController extends Controller
                 $query->where(function ($q) use ($user_id) {
                     $q->where('seller_id', $user_id)
                     ->orWhere('purchaser_id', $user_id);
+                })
+                ->where('status', '!=', 2)
+                ->where(function ($q) use ($user_id) {
+                    $q->where('purchaser_id', '!=', $user_id)
+                    ->orWhere('status', '!=', 1);
                 });
             })->with(['transactions' => function($q) use ($user_id) {
                 $q->where(function ($q2) use ($user_id) {
@@ -127,14 +132,12 @@ class UserController extends Controller
             })->values(); 
 
         if($transaction['seller_id'] === Auth::id()){
-            //自分が出品者の場合
             $target = User::find($transaction->purchaser_id);
         }else{
-            //自分が購入者の場合
             $target = User::find($transaction->seller_id);
         }
 
-        //相手ののメッセージを既読にする
+        //相手のメッセージを既読にする
         Message::where('transaction_id', $transaction_id)
             ->where('user_id', '!=', $user->id)
             ->where('is_read', false)
