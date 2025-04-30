@@ -111,20 +111,28 @@ class UserController extends Controller
         $transaction = Transaction::find($transaction_id);
         $item = Item::find($transaction->item_id);
         $user = Auth::user();
+        $user_id =Auth::id();
         $messages = Message::with('user')->where('transaction_id', $transaction_id)->get();
 
         //サイドバーに表示する商品の取得
-        $others = Item::whereHas('transactions', function ($query) {
-                $query->where(function ($q) {
-                    $q->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
-                });
-            })->with(['transactions' => function($q) {
-                $q->where(function ($q2) {
-                    $q2->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
-                });
-            }])->get();
+        $others = Item::whereHas('transactions', function ($query) use ($user_id) {
+            $query->where(function ($q) use ($user_id) {
+                $q->where('seller_id', $user_id)
+                ->orWhere('purchaser_id', $user_id);
+            })
+            ->where('status', '!=', 2)
+            ->where(function ($q) use ($user_id) {
+                $q->where('purchaser_id', '!=', $user_id)
+                ->orWhere('status', '!=', 1);
+            });
+        })
+        ->with(['transactions' => function($q) use ($user_id) {
+            $q->where(function ($q2) use ($user_id) {
+                $q2->where('seller_id', $user_id)
+                ->orWhere('purchaser_id', $user_id);
+            });
+        }])
+        ->get();
 
             //$transaction_idと一致するTransactionを持つItemを除外
             $others = $others->reject(function($item) use ($transaction_id) {
