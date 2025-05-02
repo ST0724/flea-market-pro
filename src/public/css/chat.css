@@ -257,6 +257,17 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
 }
 
+.history__edit--form{
+    padding: 10px;
+}
+
+.history__edit--input{
+    width: 100%;
+    padding: 3px 10px;
+    margin: 5px 0;
+    border-radius: 3px;
+}
+
 @media screen and (max-width: 850px) {
     .side {
         width: 20%;

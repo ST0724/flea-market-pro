@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat/{transaction_id}', [UserController::class, 'chat']);
     Route::post('/chat/{transaction_id}', [UserController::class, 'chatStore']);
     Route::delete('/chat/{transaction_id}/delete', [UserController::class, 'chatDestroy']);
+    Route::patch('/chat/{transaction_id}/message/{message}/edit', [UserController::class, 'chatUpdate'])->name('message.update');
 
     Route::post('/chat/{transaction_id}/rating', [UserController::class, 'chatRating']);
 });

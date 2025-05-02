@@ -203,4 +203,14 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+
+    public function chatUpdate(MessageRequest $request, $transaction_id, $message_id)
+    {
+        $message = Message::findOrFail($message_id);
+        $message->text = $request->text;
+        $message->save();
+
+        return redirect("/chat/{$transaction_id}");
+    }
 }

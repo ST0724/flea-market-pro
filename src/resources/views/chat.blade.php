@@ -64,11 +64,26 @@
                             </div>
                         @endif
                         <div class="history__text">
-                            <p>{{ $message['text'] }}</p>
+                            @if(request('edit_message_id') == $message->id)
+                                <form class="history__edit--form" action="{{ route('message.update', ['transaction_id' => $transaction_id, 'message' => $message->id]) }}" method="POST">
+                                    @method('PATCH')
+                                    @csrf
+                                    <input class="history__edit--input" type="text" name="text" value="{{ old('text', $message->text) }}" required>
+                                    <div class="edit__form--wrap">
+                                        <button class="history__edit-button" type="submit">保存</button>
+                                        <a class="history__edit-button" href="{{ url()->previous() }}">キャンセル</a>
+                                    </div>
+                                </form>
+                            @else
+                                <p>{{ $message['text'] }}</p>
+                            @endif
                         </div>
                         @if($isMine)
                             <div class="history__edit">
-                                <button class="history__edit-button">編集</button>
+                                <form action="{{ url()->current() }}" method="GET" style="display:inline;">
+                                    <input type="hidden" name="edit_message_id" value="{{ $message->id }}">
+                                    <button class="history__edit-button" type="submit">編集</button>
+                                </form>
                                 <form class="delete-form" action="/chat/{transaction_id}/delete" method="post">
                                     @method('DELETE')
                                     @csrf
