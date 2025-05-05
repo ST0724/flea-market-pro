@@ -68,10 +68,15 @@
                                 <form class="history__edit--form" action="{{ route('message.update', ['transaction_id' => $transaction_id, 'message' => $message->id]) }}" method="POST">
                                     @method('PATCH')
                                     @csrf
-                                    <input class="history__edit--input" type="text" name="text" value="{{ old('text', $message->text) }}" required>
+                                    <input class="history__edit--input" type="text" name="edit_text" value="{{ old('text', $message->text) }}">
+                                    <div class="form__error">
+                                        @error('edit_text')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                     <div class="edit__form--wrap">
                                         <button class="history__edit-button" type="submit">保存</button>
-                                        <a class="history__edit-button" href="{{ url()->previous() }}">キャンセル</a>
+                                        <a class="history__edit-button" href="/chat/{{ $transaction_id }}">キャンセル</a>
                                     </div>
                                 </form>
                             @else

@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
 use App\Http\Requests\MessageRequest;
+use App\Http\Requests\EditMessageRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailTest;
@@ -212,10 +213,10 @@ class UserController extends Controller
     }
 
 
-    public function chatUpdate(MessageRequest $request, $transaction_id, $message_id)
+    public function chatUpdate(EditMessageRequest $request, $transaction_id, $message_id)
     {
         $message = Message::findOrFail($message_id);
-        $message->text = $request->text;
+        $message->text = $request->edit_text;
         $message->save();
 
         return redirect("/chat/{$transaction_id}");

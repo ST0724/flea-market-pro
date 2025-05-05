@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MessageRequest extends FormRequest
+class EditMessageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,14 @@ class MessageRequest extends FormRequest
     public function rules()
     {
         return [
-             'text' => ['required', 'max:400'],
-             'image' => ['mimes:jpeg,jpg,png', 'nullable'],
+             'edit_text' => ['required', 'max:400'],
         ];
     }
 
     public function messages(){
         return [
-            'text.required' => '本文を入力してください',
-            'text.max' => '本文は400文字以内で入力してください',
-            'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
+            'edit_text.required' => '本文を入力してください',
+            'edit_text.max' => '本文は400文字以内で入力してください',
         ];
     }
 }
