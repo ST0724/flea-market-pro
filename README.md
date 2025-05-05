@@ -31,6 +31,15 @@ name:テストユーザー3
 email:test3@example.com  
 password:test_user3  
 
+## メール認証
+mailtrapを使用しています。  
+以下のリンクから会員登録をしてください。  
+https://mailtrap.io/
+
+メールボックスのIntegrations内、Code Samplesから 「PHP」タブ→「laravel 7.x and 8.x」を選択し、  
+.envファイルのMAIL_MAILERからMAIL_ENCRYPTIONまでの項目をコピー＆ペーストしてください。  
+MAIL_FROM_ADDRESSは任意のメールアドレスを入力してください。　
+
 ## ER図
 ![ER図](ER.png)
 

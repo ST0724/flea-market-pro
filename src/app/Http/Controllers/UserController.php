@@ -11,6 +11,8 @@ use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
 use App\Http\Requests\MessageRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailTest;
 
 class UserController extends Controller
 {
@@ -178,7 +180,7 @@ class UserController extends Controller
     }
 
     public function chatRating(Request $request){
-        $transaction = Transaction::find($request->input('transaction_id'));
+        $transaction = Transaction::with('item')->find($request->input('transaction_id'));
         $star = $request->input('rating');
         
         if($transaction->seller_id === Auth::id()){
@@ -189,6 +191,11 @@ class UserController extends Controller
             // 自分が購入者の場合
             $target = User::find($transaction->seller_id);
             $transaction->status = 1;
+
+            // メール送信
+            $purchaser = Auth::user()->name;
+            $item_name = $transaction->item->name;
+            Mail::to($target->email)->send(new MailTest($purchaser, $item_name));
         }
 
         $transaction->save();
