@@ -10,7 +10,10 @@ use App\Models\Transaction;
 use App\Models\Message;
 use App\Http\Requests\ProfileEditRequest;
 use App\Http\Requests\MessageRequest;
+use App\Http\Requests\EditMessageRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailTest;
 
 class UserController extends Controller
 {
@@ -59,6 +62,11 @@ class UserController extends Controller
                 $query->where(function ($q) use ($user_id) {
                     $q->where('seller_id', $user_id)
                     ->orWhere('purchaser_id', $user_id);
+                })
+                ->where('status', '!=', 2)
+                ->where(function ($q) use ($user_id) {
+                    $q->where('purchaser_id', '!=', $user_id)
+                    ->orWhere('status', '!=', 1);
                 });
             })->with(['transactions' => function($q) use ($user_id) {
                 $q->where(function ($q2) use ($user_id) {
@@ -106,20 +114,28 @@ class UserController extends Controller
         $transaction = Transaction::find($transaction_id);
         $item = Item::find($transaction->item_id);
         $user = Auth::user();
+        $user_id =Auth::id();
         $messages = Message::with('user')->where('transaction_id', $transaction_id)->get();
 
         //サイドバーに表示する商品の取得
-        $others = Item::whereHas('transactions', function ($query) {
-                $query->where(function ($q) {
-                    $q->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
-                });
-            })->with(['transactions' => function($q) {
-                $q->where(function ($q2) {
-                    $q2->where('seller_id', Auth::id())
-                    ->orWhere('purchaser_id', Auth::id());
-                });
-            }])->get();
+        $others = Item::whereHas('transactions', function ($query) use ($user_id) {
+            $query->where(function ($q) use ($user_id) {
+                $q->where('seller_id', $user_id)
+                ->orWhere('purchaser_id', $user_id);
+            })
+            ->where('status', '!=', 2)
+            ->where(function ($q) use ($user_id) {
+                $q->where('purchaser_id', '!=', $user_id)
+                ->orWhere('status', '!=', 1);
+            });
+        })
+        ->with(['transactions' => function($q) use ($user_id) {
+            $q->where(function ($q2) use ($user_id) {
+                $q2->where('seller_id', $user_id)
+                ->orWhere('purchaser_id', $user_id);
+            });
+        }])
+        ->get();
 
             //$transaction_idと一致するTransactionを持つItemを除外
             $others = $others->reject(function($item) use ($transaction_id) {
@@ -127,14 +143,12 @@ class UserController extends Controller
             })->values(); 
 
         if($transaction['seller_id'] === Auth::id()){
-            //自分が出品者の場合
             $target = User::find($transaction->purchaser_id);
         }else{
-            //自分が購入者の場合
             $target = User::find($transaction->seller_id);
         }
 
-        //相手ののメッセージを既読にする
+        //相手のメッセージを既読にする
         Message::where('transaction_id', $transaction_id)
             ->where('user_id', '!=', $user->id)
             ->where('is_read', false)
@@ -167,7 +181,7 @@ class UserController extends Controller
     }
 
     public function chatRating(Request $request){
-        $transaction = Transaction::find($request->input('transaction_id'));
+        $transaction = Transaction::with('item')->find($request->input('transaction_id'));
         $star = $request->input('rating');
         
         if($transaction->seller_id === Auth::id()){
@@ -178,6 +192,11 @@ class UserController extends Controller
             // 自分が購入者の場合
             $target = User::find($transaction->seller_id);
             $transaction->status = 1;
+
+            // メール送信
+            $purchaser = Auth::user()->name;
+            $item_name = $transaction->item->name;
+            Mail::to($target->email)->send(new MailTest($purchaser, $item_name));
         }
 
         $transaction->save();
@@ -191,5 +210,15 @@ class UserController extends Controller
         ]);
 
         return redirect('/');
+    }
+
+
+    public function chatUpdate(EditMessageRequest $request, $transaction_id, $message_id)
+    {
+        $message = Message::findOrFail($message_id);
+        $message->text = $request->edit_text;
+        $message->save();
+
+        return redirect("/chat/{$transaction_id}");
     }
 }
